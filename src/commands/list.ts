@@ -3,7 +3,7 @@ import { fetchManifest } from "../services/manifest.js";
 import { readConfig } from "../services/config.js";
 
 export async function listCommand(): Promise<void> {
-  intro("ainit — available instructions");
+  intro("kai — available instructions");
 
   const manifest = await fetchManifest();
   const config = await readConfig();

@@ -10,10 +10,10 @@ export async function defaultCommand(): Promise<void> {
     return installCommand();
   }
 
-  intro("ainit");
+  intro("kai");
 
   const action = await select({
-    message: "ainit is already configured. What would you like to do?",
+    message: "kai is already configured. What would you like to do?",
     options: [
       {
         value: "install" as const,

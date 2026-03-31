@@ -1,6 +1,6 @@
 import { join } from "node:path";
 import { spinner } from "@clack/prompts";
-import { AINIT_DIR } from "../utils/constants.js";
+import { KAI_DIR } from "../utils/constants.js";
 import { getInstructionUrl, fetchText } from "../utils/github.js";
 import { ensureDir, writeText } from "../utils/fs.js";
 import type { InstructionMeta, InstalledInstruction } from "../types/index.js";
@@ -17,7 +17,7 @@ export async function downloadInstructions(
   const s = spinner();
   s.start(`Downloading ${selections.length} instruction set(s)...`);
 
-  const dir = join(process.cwd(), AINIT_DIR);
+  const dir = join(process.cwd(), KAI_DIR);
   await ensureDir(dir);
 
   const results = await Promise.all(

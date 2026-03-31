@@ -1,10 +1,10 @@
 {
-  "name": "ainit",
+  "name": "kai",
   "version": "0.1.0",
   "description": "Generate Claude Code instruction files for your project",
   "type": "module",
   "bin": {
-    "ainit": "./dist/index.js"
+    "kai": "./dist/index.js"
   },
   "files": [
     "dist"

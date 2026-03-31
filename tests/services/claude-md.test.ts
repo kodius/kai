@@ -15,15 +15,15 @@ describe("buildManagedBlock", () => {
     const result = buildManagedBlock(["react.md"]);
 
     expect(result).toBe(
-      `${MARKER_START}\n${MARKER_COMMENT}\n@.ainit/react.md\n${MARKER_END}`,
+      `${MARKER_START}\n${MARKER_COMMENT}\n@.kai/react.md\n${MARKER_END}`,
     );
   });
 
   it("builds block with multiple filenames", () => {
     const result = buildManagedBlock(["react.md", "be-general.md"]);
 
-    expect(result).toContain("@.ainit/react.md");
-    expect(result).toContain("@.ainit/be-general.md");
+    expect(result).toContain("@.kai/react.md");
+    expect(result).toContain("@.kai/be-general.md");
     expect(result).toMatch(new RegExp(`^${escapeRegex(MARKER_START)}`));
     expect(result).toMatch(new RegExp(`${escapeRegex(MARKER_END)}$`));
   });
@@ -43,7 +43,7 @@ describe("replaceManagedBlock", () => {
       "# My Project",
       "",
       MARKER_START,
-      "@.ainit/old.md",
+      "@.kai/old.md",
       MARKER_END,
       "",
       "# Custom stuff",
@@ -53,8 +53,8 @@ describe("replaceManagedBlock", () => {
     const result = replaceManagedBlock(existing, newBlock);
 
     expect(result).toContain("# My Project");
-    expect(result).toContain("@.ainit/react.md");
-    expect(result).not.toContain("@.ainit/old.md");
+    expect(result).toContain("@.kai/react.md");
+    expect(result).not.toContain("@.kai/old.md");
     expect(result).toContain("# Custom stuff");
   });
 

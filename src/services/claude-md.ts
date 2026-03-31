@@ -2,7 +2,7 @@ import { join } from "node:path";
 import { select, log, isCancel } from "@clack/prompts";
 import {
   CLAUDE_MD_FILENAME,
-  AINIT_DIR,
+  KAI_DIR,
   MARKER_START,
   MARKER_END,
   MARKER_COMMENT,
@@ -12,7 +12,7 @@ import type { ClaudeMdPlacement } from "../types/index.js";
 
 export function buildManagedBlock(filenames: string[]): string {
   const imports = filenames
-    .map((f) => `@${AINIT_DIR}/${f}`)
+    .map((f) => `@${KAI_DIR}/${f}`)
     .join("\n");
 
   return `${MARKER_START}\n${MARKER_COMMENT}\n${imports}\n${MARKER_END}`;
@@ -42,22 +42,22 @@ export function hasMarkers(content: string): boolean {
 async function askPlacement(): Promise<ClaudeMdPlacement> {
   const placement = await select({
     message:
-      "CLAUDE.md already exists. Where should the ainit block be placed?",
+      "CLAUDE.md already exists. Where should the kai block be placed?",
     options: [
       {
         value: "top",
         label: "Top",
-        hint: "Add ainit imports at the top, keep existing content below",
+        hint: "Add kai imports at the top, keep existing content below",
       },
       {
         value: "bottom",
         label: "Bottom",
-        hint: "Keep existing content, add ainit imports at the bottom",
+        hint: "Keep existing content, add kai imports at the bottom",
       },
       {
         value: "replace",
         label: "Replace",
-        hint: "Replace entire CLAUDE.md with ainit managed content",
+        hint: "Replace entire CLAUDE.md with kai managed content",
       },
     ],
   });
@@ -79,7 +79,7 @@ export async function handleClaudeMd(
 
   if (!exists) {
     await writeText(claudeMdPath, block + "\n");
-    log.success("Created CLAUDE.md with ainit instructions.");
+    log.success("Created CLAUDE.md with kai instructions.");
     return;
   }
 
@@ -88,7 +88,7 @@ export async function handleClaudeMd(
   if (hasMarkers(existing)) {
     const updated = replaceManagedBlock(existing, block);
     await writeText(claudeMdPath, updated);
-    log.success("Updated ainit block in CLAUDE.md.");
+    log.success("Updated kai block in CLAUDE.md.");
     return;
   }
 
@@ -109,5 +109,5 @@ export async function handleClaudeMd(
   }
 
   await writeText(claudeMdPath, content);
-  log.success("Updated CLAUDE.md with ainit instructions.");
+  log.success("Updated CLAUDE.md with kai instructions.");
 }

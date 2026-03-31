@@ -20,7 +20,7 @@ export async function fetchManifest(): Promise<Manifest> {
     }
 
     throw new Error(
-      "Could not fetch instruction manifest. The ainit repository may have moved.",
+      "Could not fetch instruction manifest. The kai repository may have moved.",
     );
   }
 }

@@ -5,7 +5,7 @@ import { downloadInstructions } from "../services/instructions.js";
 import { handleClaudeMd } from "../services/claude-md.js";
 
 export async function installCommand(): Promise<void> {
-  intro("ainit — install instructions");
+  intro("kai — install instructions");
 
   const manifest = await fetchManifest();
   const existingConfig = await readConfig();

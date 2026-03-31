@@ -19,7 +19,7 @@ export interface InstalledInstruction {
   sourceUrl: string;
 }
 
-export interface AinitConfig {
+export interface KaiConfig {
   version: number;
   installedAt: string;
   updatedAt: string;

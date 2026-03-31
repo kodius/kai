@@ -7,7 +7,7 @@ import { listCommand } from "./commands/list.js";
 const program = new Command();
 
 program
-  .name("ainit")
+  .name("kai")
   .description("Generate Claude Code instruction files for your project")
   .version("0.1.0")
   .action(defaultCommand);

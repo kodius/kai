@@ -1,13 +1,13 @@
 import { join } from "node:path";
-import { AINIT_DIR, CONFIG_FILENAME } from "../utils/constants.js";
+import { KAI_DIR, CONFIG_FILENAME } from "../utils/constants.js";
 import { fileExists, readText, writeText, ensureDir } from "../utils/fs.js";
-import type { AinitConfig, InstalledInstruction } from "../types/index.js";
+import type { KaiConfig, InstalledInstruction } from "../types/index.js";
 
 function getConfigPath(): string {
-  return join(process.cwd(), AINIT_DIR, CONFIG_FILENAME);
+  return join(process.cwd(), KAI_DIR, CONFIG_FILENAME);
 }
 
-export async function readConfig(): Promise<AinitConfig | null> {
+export async function readConfig(): Promise<KaiConfig | null> {
   const configPath = getConfigPath();
 
   if (!(await fileExists(configPath))) {
@@ -15,11 +15,11 @@ export async function readConfig(): Promise<AinitConfig | null> {
   }
 
   const text = await readText(configPath);
-  return JSON.parse(text) as AinitConfig;
+  return JSON.parse(text) as KaiConfig;
 }
 
-export async function writeConfig(config: AinitConfig): Promise<void> {
-  const dir = join(process.cwd(), AINIT_DIR);
+export async function writeConfig(config: KaiConfig): Promise<void> {
+  const dir = join(process.cwd(), KAI_DIR);
   await ensureDir(dir);
 
   const configPath = getConfigPath();
@@ -27,9 +27,9 @@ export async function writeConfig(config: AinitConfig): Promise<void> {
 }
 
 export function mergeConfig(
-  existing: AinitConfig | null,
+  existing: KaiConfig | null,
   newInstructions: InstalledInstruction[],
-): AinitConfig {
+): KaiConfig {
   const now = new Date().toISOString();
 
   if (!existing) {

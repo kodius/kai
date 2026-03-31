@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "installedAt": "2026-03-31T08:14:43.723Z",
+  "updatedAt": "2026-03-31T08:14:43.723Z",
+  "instructions": [
+    {
+      "id": "react",
+      "filename": "react.md",
+      "installedAt": "2026-03-31T08:14:43.722Z",
+      "sourceUrl": "https://raw.githubusercontent.com/kodius/kai/master/instructions/react.md"
+    }
+  ]
+}

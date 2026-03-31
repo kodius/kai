@@ -5,12 +5,12 @@ import { downloadInstructions } from "../services/instructions.js";
 import { handleClaudeMd } from "../services/claude-md.js";
 
 export async function updateCommand(): Promise<void> {
-  intro("ainit — update instructions");
+  intro("kai — update instructions");
 
   const config = await readConfig();
 
   if (!config || config.instructions.length === 0) {
-    log.error("No ainit config found. Run `ainit install` first.");
+    log.error("No kai config found. Run `kai install` first.");
     outro("Done.");
     return;
   }
