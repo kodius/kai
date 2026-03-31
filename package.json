@@ -14,7 +14,8 @@
     "build": "tsup",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "publish:npm": "bash scripts/publish.sh"
   },
   "engines": {
     "node": ">=18"
