@@ -1,6 +1,6 @@
 {
   "name": "@kodius-labs/kai",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Generate Claude Code instruction files for your project",
   "type": "module",
   "bin": {
