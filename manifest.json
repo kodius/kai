@@ -9,13 +9,5 @@
       "category": "frontend",
       "tags": ["react", "typescript", "frontend"]
     },
-    {
-      "id": "be-general",
-      "name": "Backend (General)",
-      "description": "General backend patterns: API design, error handling, testing",
-      "filename": "be-general.md",
-      "category": "backend",
-      "tags": ["backend", "api", "general"]
-    }
   ]
 }
