@@ -180,6 +180,38 @@ type UpdateUserInput = {
 
 Common utility types: `Partial`, `Required`, `Readonly`, `Pick`, `Omit`, `Record`, `ReturnType`, `Parameters`, `Awaited`.
 
+## Exhaustive mapping with Record
+
+When mapping a union type to values or config, use `Record<UnionType, Value>`. TypeScript will error if a new variant is added to the union and the record isn't updated — making new cases impossible to miss.
+
+Avoid `switch` + `default` for this pattern — `default` silently absorbs new variants without a compile error.
+
+```ts
+// ✓ correct — adding a new Role to the union causes a TS error until the record is updated
+type Role = "admin" | "user" | "snake";
+
+type Setup = { endpoint: string; label: string };
+
+const roleSetup: Record<Role, Setup> = {
+  admin: { endpoint: "/admin", label: "Admin" },
+  user:  { endpoint: "/dashboard", label: "User" },
+  snake: { endpoint: "/snake", label: "Snake" },
+};
+
+const getSetup = (role: Role): Setup => roleSetup[role];
+
+// ✗ avoid — default silently handles new roles without forcing an update
+const getSetup = (role: Role): string => {
+  switch (role) {
+    case "admin": return "/admin";
+    case "snake": return "/snake";
+    default: return "/dashboard"; // new roles fall through unnoticed
+  }
+};
+```
+
+`switch` without `default` is acceptable when each branch executes complex logic rather than returning a mapped value — TypeScript still enforces exhaustiveness in that case.
+
 ## Explicit types for objects and arrays
 
 Always annotate object literals and array literals with an explicit named type. Primitives do not need annotations — TypeScript infers them correctly from the value.
