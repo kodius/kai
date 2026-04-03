@@ -5,7 +5,7 @@
       "id": "nextjs",
       "name": "Next (Frontend)",
       "description": "Next.js with TypeScript, project structure, forms, and component patterns",
-      "instructions": ["project-structure", "form", "react"]
+      "instructions": ["project-structure", "form", "react", "types"]
     }
   ],
   "instructions": [
@@ -35,6 +35,15 @@
       "category": "frontend",
       "tags": ["react", "typescript", "frontend"],
       "trigger": "When writing React components or hooks"
+    },
+    {
+      "id": "types",
+      "name": "TypeScript Types",
+      "description": "TypeScript typing conventions: type vs interface, no any, Zod inference, discriminated unions",
+      "filename": "types.md",
+      "category": "frontend",
+      "tags": ["typescript", "types"],
+      "trigger": "When defining or working with TypeScript types"
     }
   ]
 }
