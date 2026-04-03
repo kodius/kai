@@ -5,6 +5,7 @@ export interface InstructionMeta {
   filename: string;
   category: string;
   tags: string[];
+  trigger: string;
 }
 
 export interface PresetMeta {

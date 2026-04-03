@@ -10,12 +10,21 @@ import {
 import { fileExists, readText, writeText } from "../utils/fs.js";
 import type { ClaudeMdPlacement } from "../types/index.js";
 
-export function buildManagedBlock(filenames: string[]): string {
-  const imports = filenames
-    .map((f) => `@${KAI_DIR}/${f}`)
-    .join("\n");
+export interface InstructionRef {
+  filename: string;
+  trigger: string;
+}
 
-  return `${MARKER_START}\n${MARKER_COMMENT}\n${imports}\n${MARKER_END}`;
+export function buildManagedBlock(instructions: InstructionRef[]): string {
+  const lines = instructions
+    .map((i) =>
+      i.trigger
+        ? `${i.trigger}, read \`.kai/${i.filename}\`.`
+        : `@${KAI_DIR}/${i.filename}`,
+    )
+    .join("\n\n");
+
+  return `${MARKER_START}\n${MARKER_COMMENT}\n${lines}\n${MARKER_END}`;
 }
 
 export function replaceManagedBlock(
@@ -70,10 +79,10 @@ async function askPlacement(): Promise<ClaudeMdPlacement> {
 }
 
 export async function handleClaudeMd(
-  filenames: string[],
+  instructions: InstructionRef[],
 ): Promise<void> {
   const claudeMdPath = join(process.cwd(), CLAUDE_MD_FILENAME);
-  const block = buildManagedBlock(filenames);
+  const block = buildManagedBlock(instructions);
 
   const exists = await fileExists(claudeMdPath);
 

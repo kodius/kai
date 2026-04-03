@@ -77,8 +77,11 @@ export async function installCommand(): Promise<void> {
   const newConfig = buildPresetConfig(existingConfig, selectedPresetId, successful);
   await writeConfig(newConfig);
 
-  const allFilenames = newConfig.instructions.map((i) => i.filename);
-  await handleClaudeMd(allFilenames);
+  const instructionRefs = newConfig.instructions.map((inst) => {
+    const meta = manifest.instructions.find((m) => m.id === inst.id);
+    return { filename: inst.filename, trigger: meta?.trigger ?? "" };
+  });
+  await handleClaudeMd(instructionRefs);
 
   outro("Instructions installed successfully!");
 }

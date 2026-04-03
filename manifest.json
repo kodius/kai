@@ -15,7 +15,8 @@
       "description": "Project structure and file organization conventions",
       "filename": "project-structure.md",
       "category": "frontend",
-      "tags": ["structure", "typescript"]
+      "tags": ["structure", "typescript"],
+      "trigger": "When working on project file/folder structure or organizing code"
     },
     {
       "id": "form",
@@ -23,7 +24,8 @@
       "description": "Form handling with validation and accessibility patterns",
       "filename": "form.md",
       "category": "frontend",
-      "tags": ["forms", "validation"]
+      "tags": ["forms", "validation"],
+      "trigger": "When building or modifying forms"
     },
     {
       "id": "react",
@@ -31,7 +33,8 @@
       "description": "React with TypeScript, component patterns, hooks",
       "filename": "react.md",
       "category": "frontend",
-      "tags": ["react", "typescript", "frontend"]
+      "tags": ["react", "typescript", "frontend"],
+      "trigger": "When writing React components or hooks"
     }
   ]
 }

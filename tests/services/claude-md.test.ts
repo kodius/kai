@@ -11,24 +11,35 @@ import {
 } from "../../src/utils/constants.js";
 
 describe("buildManagedBlock", () => {
-  it("builds block with single filename", () => {
-    const result = buildManagedBlock(["react.md"]);
+  it("builds block with trigger as prose sentence", () => {
+    const result = buildManagedBlock([
+      { filename: "react.md", trigger: "When writing React components or hooks" },
+    ]);
 
     expect(result).toBe(
-      `${MARKER_START}\n${MARKER_COMMENT}\n@.kai/react.md\n${MARKER_END}`,
+      `${MARKER_START}\n${MARKER_COMMENT}\nWhen writing React components or hooks, read \`.kai/react.md\`.\n${MARKER_END}`,
     );
   });
 
-  it("builds block with multiple filenames", () => {
-    const result = buildManagedBlock(["react.md", "be-general.md"]);
+  it("builds block with multiple instructions separated by blank lines", () => {
+    const result = buildManagedBlock([
+      { filename: "react.md", trigger: "When writing React components or hooks" },
+      { filename: "form.md", trigger: "When building or modifying forms" },
+    ]);
 
-    expect(result).toContain("@.kai/react.md");
-    expect(result).toContain("@.kai/be-general.md");
+    expect(result).toContain("When writing React components or hooks, read `.kai/react.md`.");
+    expect(result).toContain("When building or modifying forms, read `.kai/form.md`.");
     expect(result).toMatch(new RegExp(`^${escapeRegex(MARKER_START)}`));
     expect(result).toMatch(new RegExp(`${escapeRegex(MARKER_END)}$`));
   });
 
-  it("builds block with empty filenames", () => {
+  it("falls back to @import when trigger is empty", () => {
+    const result = buildManagedBlock([{ filename: "react.md", trigger: "" }]);
+
+    expect(result).toContain("@.kai/react.md");
+  });
+
+  it("builds block with empty instructions", () => {
     const result = buildManagedBlock([]);
 
     expect(result).toBe(
@@ -49,11 +60,11 @@ describe("replaceManagedBlock", () => {
       "# Custom stuff",
     ].join("\n");
 
-    const newBlock = buildManagedBlock(["react.md"]);
+    const newBlock = buildManagedBlock([{ filename: "react.md", trigger: "When writing React components or hooks" }]);
     const result = replaceManagedBlock(existing, newBlock);
 
     expect(result).toContain("# My Project");
-    expect(result).toContain("@.kai/react.md");
+    expect(result).toContain("react.md");
     expect(result).not.toContain("@.kai/old.md");
     expect(result).toContain("# Custom stuff");
   });

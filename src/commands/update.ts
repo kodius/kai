@@ -71,8 +71,11 @@ export async function updateCommand(): Promise<void> {
   const updatedConfig = buildPresetConfig(config, config.preset, successful);
   await writeConfig(updatedConfig);
 
-  const allFilenames = updatedConfig.instructions.map((i) => i.filename);
-  await handleClaudeMd(allFilenames);
+  const instructionRefs = updatedConfig.instructions.map((inst) => {
+    const meta = manifest.instructions.find((m) => m.id === inst.id);
+    return { filename: inst.filename, trigger: meta?.trigger ?? "" };
+  });
+  await handleClaudeMd(instructionRefs);
 
   outro("Instructions updated successfully!");
 }
