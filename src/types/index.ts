@@ -7,8 +7,16 @@ export interface InstructionMeta {
   tags: string[];
 }
 
+export interface PresetMeta {
+  id: string;
+  name: string;
+  description: string;
+  instructions: string[]; // instruction IDs
+}
+
 export interface Manifest {
   version: number;
+  presets: PresetMeta[];
   instructions: InstructionMeta[];
 }
 
@@ -21,6 +29,7 @@ export interface InstalledInstruction {
 
 export interface KaiConfig {
   version: number;
+  preset: string;
   installedAt: string;
   updatedAt: string;
   instructions: InstalledInstruction[];

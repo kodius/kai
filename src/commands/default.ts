@@ -16,12 +16,12 @@ export async function defaultCommand(): Promise<void> {
     message: "kai is already configured. What would you like to do?",
     options: [
       {
-        value: "install" as const,
-        label: "Install additional instruction sets",
+        value: "update" as const,
+        label: "Update current preset",
       },
       {
-        value: "update" as const,
-        label: "Update existing instruction sets",
+        value: "install" as const,
+        label: "Switch preset",
       },
     ],
   });

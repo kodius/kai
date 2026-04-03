@@ -35,6 +35,7 @@ export function mergeConfig(
   if (!existing) {
     return {
       version: 1,
+      preset: "",
       installedAt: now,
       updatedAt: now,
       instructions: newInstructions,
@@ -55,5 +56,21 @@ export function mergeConfig(
     ...existing,
     updatedAt: now,
     instructions: Array.from(merged.values()),
+  };
+}
+
+export function buildPresetConfig(
+  existing: KaiConfig | null,
+  presetId: string,
+  instructions: InstalledInstruction[],
+): KaiConfig {
+  const now = new Date().toISOString();
+
+  return {
+    version: 1,
+    preset: presetId,
+    installedAt: existing?.installedAt ?? now,
+    updatedAt: now,
+    instructions,
   };
 }

@@ -1,9 +1,33 @@
 {
   "version": 1,
+  "presets": [
+    {
+      "id": "nextjs",
+      "name": "Next (Frontend)",
+      "description": "Next.js with TypeScript, project structure, forms, and component patterns",
+      "instructions": ["project-structure", "form", "react"]
+    }
+  ],
   "instructions": [
     {
+      "id": "project-structure",
+      "name": "Project Structure",
+      "description": "Project structure and file organization conventions",
+      "filename": "project-structure.md",
+      "category": "frontend",
+      "tags": ["structure", "typescript"]
+    },
+    {
+      "id": "form",
+      "name": "Forms",
+      "description": "Form handling with validation and accessibility patterns",
+      "filename": "form.md",
+      "category": "frontend",
+      "tags": ["forms", "validation"]
+    },
+    {
       "id": "react",
-      "name": "React (Frontend)",
+      "name": "React",
       "description": "React with TypeScript, component patterns, hooks",
       "filename": "react.md",
       "category": "frontend",

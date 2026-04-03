@@ -1,7 +1,7 @@
-import { intro, multiselect, log, outro, isCancel } from "@clack/prompts";
+import { intro, select, log, outro, isCancel } from "@clack/prompts";
 import { fetchManifest } from "../services/manifest.js";
-import { readConfig, writeConfig, mergeConfig } from "../services/config.js";
-import { downloadInstructions } from "../services/instructions.js";
+import { readConfig, writeConfig, buildPresetConfig } from "../services/config.js";
+import { downloadInstructions, deleteInstruction } from "../services/instructions.js";
 import { handleClaudeMd } from "../services/claude-md.js";
 
 export async function installCommand(): Promise<void> {
@@ -10,38 +10,51 @@ export async function installCommand(): Promise<void> {
   const manifest = await fetchManifest();
   const existingConfig = await readConfig();
 
-  const installedIds = new Set(
-    existingConfig?.instructions.map((i) => i.id) ?? [],
-  );
-
-  const options = manifest.instructions.map((inst) => ({
-    value: inst.id,
-    label: inst.name,
-    hint: `${inst.description}${installedIds.has(inst.id) ? " [installed]" : ""}`,
-  }));
-
-  if (options.length === 0) {
-    log.warning("No instruction sets available.");
+  if (manifest.presets.length === 0) {
+    log.warning("No presets available.");
     outro("Done.");
     return;
   }
 
-  const selected = await multiselect({
-    message: "Which instruction sets would you like to install?",
+  const options = manifest.presets.map((preset) => ({
+    value: preset.id,
+    label: preset.name,
+    hint: `${preset.description}${existingConfig?.preset === preset.id ? " [installed]" : ""}`,
+  }));
+
+  const selectedPresetId = await select({
+    message: "Select a preset to install:",
     options,
-    required: true,
   });
 
-  if (isCancel(selected)) {
+  if (isCancel(selectedPresetId)) {
     outro("Cancelled.");
     return;
   }
 
-  const selectedMeta = manifest.instructions.filter((inst) =>
-    selected.includes(inst.id),
-  );
+  const preset = manifest.presets.find((p) => p.id === selectedPresetId);
+  if (!preset) {
+    log.error("Selected preset not found.");
+    outro("Done.");
+    return;
+  }
 
-  const results = await downloadInstructions(selectedMeta);
+  // If switching presets, delete files from the old preset that aren't in the new one
+  if (existingConfig?.preset && existingConfig.preset !== selectedPresetId) {
+    const newInstructionIds = new Set(preset.instructions);
+    const toDelete = existingConfig.instructions.filter(
+      (i) => !newInstructionIds.has(i.id),
+    );
+    for (const inst of toDelete) {
+      await deleteInstruction(inst.filename);
+    }
+  }
+
+  const instructionMetas = preset.instructions
+    .map((id) => manifest.instructions.find((i) => i.id === id))
+    .filter((i) => i !== undefined);
+
+  const results = await downloadInstructions(instructionMetas);
 
   const successful = results
     .filter((r) => r.success)
@@ -61,7 +74,7 @@ export async function installCommand(): Promise<void> {
     return;
   }
 
-  const newConfig = mergeConfig(existingConfig, successful);
+  const newConfig = buildPresetConfig(existingConfig, selectedPresetId, successful);
   await writeConfig(newConfig);
 
   const allFilenames = newConfig.instructions.map((i) => i.filename);

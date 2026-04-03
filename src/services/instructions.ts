@@ -2,7 +2,7 @@ import { join } from "node:path";
 import { spinner } from "@clack/prompts";
 import { KAI_DIR } from "../utils/constants.js";
 import { getInstructionUrl, fetchText } from "../utils/github.js";
-import { ensureDir, writeText } from "../utils/fs.js";
+import { ensureDir, writeText, deleteFile, fileExists } from "../utils/fs.js";
 import type { InstructionMeta, InstalledInstruction } from "../types/index.js";
 
 export interface DownloadResult {
@@ -66,4 +66,11 @@ export async function downloadInstructions(
   }
 
   return results;
+}
+
+export async function deleteInstruction(filename: string): Promise<void> {
+  const filePath = join(process.cwd(), KAI_DIR, filename);
+  if (await fileExists(filePath)) {
+    await deleteFile(filePath);
+  }
 }

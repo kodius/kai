@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile, stat } from "node:fs/promises";
+import { mkdir, readFile, writeFile, stat, unlink } from "node:fs/promises";
 
 export async function ensureDir(path: string): Promise<void> {
   await mkdir(path, { recursive: true });
@@ -22,4 +22,8 @@ export async function writeText(
   content: string,
 ): Promise<void> {
   await writeFile(path, content, "utf-8");
+}
+
+export async function deleteFile(path: string): Promise<void> {
+  await unlink(path);
 }

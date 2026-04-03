@@ -26,6 +26,7 @@ describe("mergeConfig", () => {
   it("merges new instructions into existing config", () => {
     const existing: KaiConfig = {
       version: 1,
+      preset: "nextjs",
       installedAt: "2026-01-01T00:00:00.000Z",
       updatedAt: "2026-01-01T00:00:00.000Z",
       instructions: [makeInstruction("react")],
@@ -41,6 +42,7 @@ describe("mergeConfig", () => {
   it("deduplicates by id, preferring new instruction", () => {
     const existing: KaiConfig = {
       version: 1,
+      preset: "nextjs",
       installedAt: "2026-01-01T00:00:00.000Z",
       updatedAt: "2026-01-01T00:00:00.000Z",
       instructions: [makeInstruction("react")],
