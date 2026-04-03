@@ -5,7 +5,7 @@
       "id": "nextjs",
       "name": "Next (Frontend)",
       "description": "Next.js with TypeScript, project structure, forms, and component patterns",
-      "instructions": ["project-structure", "form", "react", "types"]
+      "instructions": ["project-structure", "form", "react", "types", "primitives"]
     }
   ],
   "instructions": [
@@ -44,6 +44,15 @@
       "category": "frontend",
       "tags": ["typescript", "types"],
       "trigger": "When defining or working with TypeScript types"
+    },
+    {
+      "id": "primitives",
+      "name": "Layout Primitives",
+      "description": "Tailwind layout primitives: Stack, Cluster, Split, Switcher, Grid — with source for scaffolding",
+      "filename": "primitives.md",
+      "category": "frontend",
+      "tags": ["layout", "react", "tailwind"],
+      "trigger": "When building layout or composing UI structure"
     }
   ]
 }
