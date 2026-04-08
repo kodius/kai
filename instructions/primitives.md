@@ -2,7 +2,9 @@
 
 Layout primitives are low-level Tailwind wrappers that handle spacing, direction, and responsive columns. Use them instead of writing raw flexbox/grid classes directly in components.
 
-If the files don't exist in the project yet, scaffold them into `components/primitives/` using the source below.
+## Missing primitives — install all, not one
+
+Before using any primitive, check if `components/primitives/` exists in the project. If any primitive file is missing, ask the user to install **all** primitives — not just the one needed for the current task. Scaffold every primitive listed below into `components/primitives/` so the full set is available from the start.
 
 ## Stack
 
