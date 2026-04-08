@@ -2,6 +2,24 @@
 
 Layout primitives are low-level Tailwind wrappers that handle spacing, direction, and responsive columns. Use them instead of writing raw flexbox/grid classes directly in components.
 
+## Use primitives for spacing — never margin classes
+
+Do not use margin utility classes (`m-*`, `mb-*`, `mt-*`, etc.) to create spacing between sibling elements. Spacing between elements is the parent container's job — use the appropriate primitive (usually `Stack` for vertical flow) and adjust its `gap` via `className` if needed.
+
+```tsx
+// ✓ correct — Stack controls vertical spacing
+<Stack className="p-6">
+  <h1 className="text-lg font-medium">Exercises</h1>
+  <ExerciseList />
+</Stack>
+
+// ✗ avoid — raw div with margin classes for spacing
+<div className="p-6">
+  <h1 className="mb-6 text-lg font-medium">Exercises</h1>
+  <ExerciseList />
+</div>
+```
+
 ## Missing primitives — install all, not one
 
 Before using any primitive, check if `components/primitives/` exists in the project. If any primitive file is missing, ask the user to install **all** primitives — not just the one needed for the current task. Scaffold every primitive listed below into `components/primitives/` so the full set is available from the start.
