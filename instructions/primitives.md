@@ -7,10 +7,15 @@ Layout primitives are low-level Tailwind wrappers that handle spacing, direction
 Do not use margin utility classes (`m-*`, `mb-*`, `mt-*`, etc.) to create spacing between sibling elements. Spacing between elements is the parent container's job — use the appropriate primitive (usually `Stack` for vertical flow) and adjust its `gap` via `className` if needed.
 
 ```tsx
+// ✓ correct — Section handles title + content layout
+<Section title="Exercises">
+  <ExerciseList />
+</Section>
+
 // ✓ correct — Stack controls vertical spacing
 <Stack className="p-6">
-  <h1 className="text-lg font-medium">Exercises</h1>
-  <ExerciseList />
+  <Header />
+  <Content />
 </Stack>
 
 // ✗ avoid — raw div with margin classes for spacing
@@ -212,6 +217,73 @@ export const Grid = (props: Props) => {
       className={cn(gridVariants({ sm, md, lg, xl }), className)}
       {...rest}
     />
+  );
+};
+```
+
+## Section
+
+Titled content block with a heading and children. Use for any layout that pairs a title with content below it — page headers, card sub-sections, sidebar groups, settings panels. Variants control the visual scale so the same component works everywhere.
+
+```tsx
+<Section title="Exercises">
+  <ExerciseList />
+</Section>
+
+<Section title="Recent Activity" variant="default">
+  <ActivityFeed />
+</Section>
+```
+
+When you have a title followed by content, always use `Section` instead of manually combining a heading element with a `Stack`.
+
+```tsx
+// ✓ correct
+<Section title="Exercises">
+  <ExerciseList />
+</Section>
+
+// ✗ avoid — ad-hoc title + content layout
+<Stack>
+  <h1 className="text-lg font-medium">Exercises</h1>
+  <ExerciseList />
+</Stack>
+```
+
+Requires `class-variance-authority` (`pnpm add class-variance-authority`).
+
+### Source
+
+```tsx
+// components/primitives/section.tsx
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
+
+const sectionVariants = cva("flex flex-col", {
+  variants: {
+    variant: {
+      default: "gap-4 [&>h2]:text-lg [&>h2]:font-medium",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+type SectionVariants = VariantProps<typeof sectionVariants>;
+
+type Props = SectionVariants & {
+  title: string;
+  className?: string;
+  children: React.ReactNode;
+};
+
+export const Section = (props: Props) => {
+  return (
+    <section className={cn(sectionVariants({ variant: props.variant }), props.className)}>
+      <h2>{props.title}</h2>
+      {props.children}
+    </section>
   );
 };
 ```
