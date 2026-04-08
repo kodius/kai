@@ -42,3 +42,14 @@ export default function DashboardPage() {
   );
 }
 ```
+
+## Enable typed routes — always set typedRoutes in next.config
+
+Next.js typed routes make `href` on `<Link>` statically type-checked against real routes. Always enable this so TypeScript catches broken links at compile time.
+
+```ts
+// next.config.mjs
+const nextConfig = {
+  typedRoutes: true,
+};
+```

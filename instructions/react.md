@@ -122,6 +122,43 @@ return count && <List items={items} />;
 return count > 0 ? <List items={items} /> : null;
 ```
 
+## Conditional rendering with shared JSX — extract to a const
+
+When a JSX element is used in multiple branches of a conditional, extract it to a named `const` before the return and reference it by name. Never write the same JSX twice.
+
+```tsx
+// ✓ correct — title defined once, reused in both branches
+const title = <h2>{props.title}</h2>;
+const titleWithAction = (
+  <div className="flex items-center justify-between">
+    {title}
+    {props.action}
+  </div>
+);
+
+return (
+  <section>
+    {props.action ? titleWithAction : title}
+    {props.children}
+  </section>
+);
+
+// ✗ avoid — h2 written twice, branches diverge silently
+return (
+  <section>
+    {props.action ? (
+      <div className="flex items-center justify-between">
+        <h2>{props.title}</h2>
+        {props.action}
+      </div>
+    ) : (
+      <h2>{props.title}</h2>
+    )}
+    {props.children}
+  </section>
+);
+```
+
 ## Fragments
 
 Use `<>` shorthand. Only use `<React.Fragment>` when a `key` prop is required.
@@ -189,15 +226,6 @@ export const UserPage = (props: Props) => {
 ## Custom hooks
 
 Name all custom hooks with the `use` prefix.
-
-```ts
-// ✓ correct
-const useUserProfile = (id: string) => { ... };
-
-// ✗ avoid
-const fetchUserProfile = (id: string) => { ... };
-const userProfileHook = (id: string) => { ... };
-```
 
 ## Use UI components — never hand-style common patterns
 
