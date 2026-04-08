@@ -5,7 +5,7 @@
       "id": "nextjs",
       "name": "Next (Frontend)",
       "description": "Next.js with TypeScript, project structure, forms, and component patterns",
-      "instructions": ["project-structure", "form", "react", "types", "primitives"]
+      "instructions": ["project-structure", "form", "react", "types", "primitives", "nextjs"]
     }
   ],
   "instructions": [
@@ -53,6 +53,15 @@
       "category": "frontend",
       "tags": ["layout", "react", "tailwind"],
       "trigger": "When building layout or composing UI structure"
+    },
+    {
+      "id": "nextjs",
+      "name": "Next.js",
+      "description": "Next.js patterns: data fetching, streaming, Suspense, server components",
+      "filename": "nextjs.md",
+      "category": "frontend",
+      "tags": ["nextjs", "react", "server-components", "streaming"],
+      "trigger": "When fetching data, using server components, or working with Next.js routing"
     }
   ]
 }
