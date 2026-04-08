@@ -199,6 +199,22 @@ const fetchUserProfile = (id: string) => { ... };
 const userProfileHook = (id: string) => { ... };
 ```
 
+## Use UI components — never hand-style common patterns
+
+Do not recreate recognizable UI patterns (badges, tooltips, avatars, alerts, etc.) with raw Tailwind classes. Use existing component library components (shadcn/ui) instead. If the component isn't installed yet, install it first (`pnpm dlx shadcn@latest add <component>`).
+
+```tsx
+// ✓ correct — use the Badge component
+import { Badge } from "@/components/ui/badge";
+
+<Badge variant="secondary">{props.exercise.difficulty}</Badge>
+
+// ✗ avoid — hand-styled badge with raw Tailwind
+<span className="rounded-sm bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+  {props.exercise.difficulty}
+</span>
+```
+
 ## Memoization
 
 Do not use `React.memo`, `useMemo`, or `useCallback` by default. Apply them only when there is a demonstrated performance problem — premature memoization adds complexity without measurable benefit.

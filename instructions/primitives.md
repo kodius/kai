@@ -25,6 +25,24 @@ Do not use margin utility classes (`m-*`, `mb-*`, `mt-*`, etc.) to create spacin
 </div>
 ```
 
+## Wrap page content in Container — never set max-width ad-hoc
+
+Page-level content must be wrapped in a `Container` to enforce a consistent max-width and horizontal centering. This ensures the content width can be adjusted project-wide from a single place.
+
+```tsx
+// ✓ correct — Container controls max-width and centering
+<Container>
+  <Section title="Exercises">
+    <ExerciseList />
+  </Section>
+</Container>
+
+// ✗ avoid — no width constraint, content stretches to full viewport
+<Section title="Exercises" className="p-6">
+  <ExerciseList />
+</Section>
+```
+
 ## Missing primitives — install all, not one
 
 Before using any primitive, check if `components/primitives/` exists in the project. If any primitive file is missing, ask the user to install **all** primitives — not just the one needed for the current task. Scaffold every primitive listed below into `components/primitives/` so the full set is available from the start.
@@ -284,6 +302,38 @@ export const Section = (props: Props) => {
       <h2>{props.title}</h2>
       {props.children}
     </section>
+  );
+};
+```
+
+## Container
+
+Centered max-width wrapper. Use to constrain page content to a consistent width and center it horizontally. Adjust `max-w-5xl` in one place to change the content width project-wide.
+
+```tsx
+<Container>
+  <Section title="Exercises">
+    <ExerciseList />
+  </Section>
+</Container>
+```
+
+### Source
+
+```tsx
+// components/primitives/container.tsx
+import { cn } from "@/lib/utils";
+
+type Props = {
+  className?: string;
+  children: React.ReactNode;
+};
+
+export const Container = (props: Props) => {
+  return (
+    <div className={cn("mx-auto w-full max-w-7xl px-6 py-6", props.className)}>
+      {props.children}
+    </div>
   );
 };
 ```
