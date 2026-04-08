@@ -21,11 +21,11 @@
     {
       "id": "form",
       "name": "Forms",
-      "description": "Form handling with validation and accessibility patterns",
+      "description": "Form field components with react-hook-form, shadcn Form primitives, and reusable Form* wrapper pattern",
       "filename": "form.md",
       "category": "frontend",
-      "tags": ["forms", "validation"],
-      "trigger": "When building or modifying forms"
+      "tags": ["forms", "validation", "react-hook-form", "shadcn"],
+      "trigger": "When building or modifying forms, form fields, or form validation"
     },
     {
       "id": "react",
