@@ -44,22 +44,22 @@ Each feature is a self-contained module. A feature owns everything needed to imp
 features/
 ├── auth/
 │   ├── components/       # UI components scoped to this feature
-│   │   ├── LoginForm.tsx
-│   │   └── RegisterForm.tsx
+│   │   ├── login-form.tsx
+│   │   └── register-form.tsx
 │   ├── hooks/            # React hooks scoped to this feature
-│   │   └── useAuth.ts
+│   │   └── use-auth.ts
 │   ├── actions/          # Next.js Server Actions
-│   │   └── authActions.ts
+│   │   └── auth-actions.ts
 │   ├── api/              # Client-side fetch functions / API calls
-│   │   └── authApi.ts
+│   │   └── auth-api.ts
 │   ├── schemas/          # Zod validation schemas
-│   │   └── authSchemas.ts
+│   │   └── auth-schemas.ts
 │   ├── types/            # TypeScript types for this feature
 │   │   └── auth.ts
 │   ├── store/            # Local state — Zustand slice, context, or reducer
-│   │   └── authStore.ts
+│   │   └── auth-store.ts
 │   └── helpers/          # Pure utility functions scoped to this feature
-│       └── authHelpers.ts
+│       └── auth-helpers.ts
 ├── dashboard/
 │   ├── components/
 │   ├── hooks/
@@ -74,10 +74,24 @@ Only include sub-folders that are needed — don't create empty directories.
 
 ## Naming conventions
 
-- **Feature folders**: `kebab-case` — `user-profile/`, `billing-history/`
-- **Component files**: `PascalCase` — `UserCard.tsx`, `LoginForm.tsx`
-- **Hook files**: `camelCase` with `use` prefix — `useAuth.ts`, `useUserProfile.ts`
-- **Everything else**: `camelCase` — `authApi.ts`, `userHelpers.ts`, `authSchemas.ts`
+All files and folders use `kebab-case` — no exceptions.
+
+- **Folders**: `user-profile/`, `billing-history/`
+- **Components**: `user-card.tsx`, `login-form.tsx`
+- **Hooks**: `use-auth.ts`, `use-user-profile.ts`
+- **Everything else**: `auth-api.ts`, `user-helpers.ts`, `auth-schemas.ts`
+
+```
+// ✓ correct
+features/auth/components/login-form.tsx
+features/auth/hooks/use-auth.ts
+features/auth/api/auth-api.ts
+
+// ✗ avoid
+features/auth/components/LoginForm.tsx
+features/auth/hooks/useAuth.ts
+features/auth/api/authApi.ts
+```
 
 ## Shared vs feature-scoped
 
@@ -96,11 +110,11 @@ Move code to the shared layer only when it is actually reused. Default to keepin
 Test files are co-located next to the file they test:
 
 ```
-features/auth/hooks/useAuth.ts
-features/auth/hooks/useAuth.test.ts
+features/auth/hooks/use-auth.ts
+features/auth/hooks/use-auth.test.ts
 
-features/auth/components/LoginForm.tsx
-features/auth/components/LoginForm.test.tsx
+features/auth/components/login-form.tsx
+features/auth/components/login-form.test.tsx
 ```
 
 ## Server Actions
@@ -108,7 +122,7 @@ features/auth/components/LoginForm.test.tsx
 Server Actions live in `features/[feature]/actions/` and are imported directly by Server or Client Components within the same feature.
 
 ```ts
-// features/auth/actions/authActions.ts
+// features/auth/actions/auth-actions.ts
 "use server";
 
 export async function loginAction(data: LoginInput) { ... }
@@ -120,7 +134,7 @@ Import directly from the source file, not from an `index.ts` re-export:
 
 ```ts
 // ✓ correct
-import { LoginForm } from "@/features/auth/components/LoginForm";
+import { LoginForm } from "@/features/auth/components/login-form";
 
 // ✗ avoid
 import { LoginForm } from "@/features/auth";
