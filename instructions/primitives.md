@@ -25,17 +25,32 @@ Do not use margin utility classes (`m-*`, `mb-*`, `mt-*`, etc.) to create spacin
 </div>
 ```
 
-## Wrap page content in Container — never override its built-in sizing
+## Wrap page content in Container — never override or duplicate its centering
 
-Page-level content must be wrapped in a `Container` to enforce a consistent max-width and horizontal centering. This ensures the content width can be adjusted project-wide from a single place.
+Page-level content must be wrapped in a `Container` to enforce a consistent max-width and horizontal centering. This ensures the content width can be adjusted project-wide from a single place — one source of truth.
 
 Do not override Container's built-in `max-w-*` or `py-*` via `className` — those values are the whole point of the component. If you need a different max-width or vertical padding, change the Container source once rather than overriding per-usage.
 
+Do not hardcode `max-w-*`, `mx-auto`, or `px-*` on components that live inside a page layout. Centering and constraining width is Container's job. Components should only receive styling classes (colors, borders, typography) — not layout-centering classes. If a component needs the page's max-width, wrap it in Container rather than duplicating the values.
+
 ```tsx
-// ✓ correct
+// ✓ correct — Container handles centering, footer only styles itself
 <Container>
-  <PageContent />
+  <footer className="text-xs text-muted-foreground border-t border-border">
+    <Split className="items-center">
+      <span>&copy; 2025 acme</span>
+      <Link href="/github">GitHub</Link>
+    </Split>
+  </footer>
 </Container>
+
+// ✗ avoid — component hardcodes centering that Container already provides
+<footer className="w-full max-w-4xl mx-auto px-6 py-6 text-xs text-muted-foreground border-t border-border">
+  <Split className="items-center">
+    <span>&copy; 2025 acme</span>
+    <Link href="/github">GitHub</Link>
+  </Split>
+</footer>
 
 // ✗ avoid — overriding Container's built-in sizing
 <Container className="max-w-4xl py-12">
