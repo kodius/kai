@@ -29,7 +29,7 @@ Do not use margin utility classes (`m-*`, `mb-*`, `mt-*`, etc.) to create spacin
 
 Page-level content must be wrapped in a `Container` to enforce a consistent max-width and horizontal centering. This ensures the content width can be adjusted project-wide from a single place — one source of truth.
 
-Do not override Container's built-in `max-w-*` or `py-*` via `className` — those values are the whole point of the component. If you need a different max-width or vertical padding, change the Container source once rather than overriding per-usage.
+Do not override Container's built-in `max-w-*` via `className` — that value is the whole point of the component. If you need a different max-width, change the Container source once rather than overriding per-usage.
 
 Do not hardcode `max-w-*`, `mx-auto`, or `px-*` on components that live inside a page layout. Centering and constraining width is Container's job. Components should only receive styling classes (colors, borders, typography) — not layout-centering classes. If a component needs the page's max-width, wrap it in Container rather than duplicating the values.
 
@@ -365,7 +365,7 @@ export const Section = (props: Props) => {
 
 ## Container
 
-Centered max-width wrapper. Use to constrain page content to a consistent width and center it horizontally. Adjust `max-w-5xl` in one place to change the content width project-wide.
+Centered max-width wrapper. Container centers content and constrains it to a consistent max-width. Adjust `max-w-7xl` in one place to change the content width project-wide.
 
 ```tsx
 <Container>
@@ -388,7 +388,7 @@ type Props = {
 
 export const Container = (props: Props) => {
   return (
-    <div className={cn("mx-auto w-full max-w-7xl px-6 py-6", props.className)}>
+    <div className={cn("mx-auto w-full max-w-7xl", props.className)}>
       {props.children}
     </div>
   );
