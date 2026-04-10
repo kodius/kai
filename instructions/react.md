@@ -227,43 +227,7 @@ export const UserPage = (props: Props) => {
 };
 ```
 
-```tsx
-// ✓ correct — branding block extracted to its own component
-const AppBranding = () => (
-  <Cluster className="items-center">
-    <AppLogo />
-    <div>
-      <h1 className="text-2xl font-bold tracking-tight">myapp</h1>
-      <p className="text-sm text-muted-foreground">Tagline here</p>
-    </div>
-  </Cluster>
-);
-
-export default function Home() {
-  return (
-    <Container>
-      <AppBranding />
-      {/* ... */}
-    </Container>
-  );
-}
-
-// ✗ avoid — inline branding block cluttering the page component
-export default function Home() {
-  return (
-    <Container>
-      <Cluster className="items-center">
-        <AppLogo />
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">myapp</h1>
-          <p className="text-sm text-muted-foreground">Tagline here</p>
-        </div>
-      </Cluster>
-      {/* ... */}
-    </Container>
-  );
-}
-```
+Extracted components must live in their own file in a dedicated folder — never as a `const` in the page file. Pages should only import and compose components, not define them.
 
 ## Custom hooks
 
