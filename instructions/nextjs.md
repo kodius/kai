@@ -2,7 +2,7 @@
 
 ## Stream async data with Suspense — never block the page
 
-Async server components that fetch data must be wrapped in `<Suspense>` to stream the response. This prevents the entire page from blocking while data loads. Use `<Spinner />` from shadcn as the fallback.
+Async server components that fetch data must be wrapped in `<Suspense>` to stream the response. This prevents the entire page from blocking while data loads. Always use `<Spinner />` from shadcn as the default fallback — do not use `<Skeleton />`, `null`, or other placeholders unless the user explicitly requests it.
 
 The **exception** is `searchParams` and `params` from Next.js — these are resolved by the framework and do not need Suspense wrapping.
 

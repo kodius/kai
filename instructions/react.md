@@ -205,6 +205,10 @@ items.map((item, index) => <Row key={index} item={item} />);
 
 A component should do one thing. Extract a new component when a section has its own state, represents a logically distinct piece of UI, or makes the parent hard to read.
 
+Always create smaller components even for non-reused pieces — if something is logically distinct (a footer, a branding block, a nav bar), it should be its own component. This keeps pages declarative and readable.
+
+Layout-level components like footers, headers, and navigation should if possible be placed in the `layout.tsx` file rather than in individual pages.
+
 ```tsx
 // ✓ correct — each component has one job
 export const UserPage = (props: Props) => (

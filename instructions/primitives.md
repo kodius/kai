@@ -25,22 +25,22 @@ Do not use margin utility classes (`m-*`, `mb-*`, `mt-*`, etc.) to create spacin
 </div>
 ```
 
-## Wrap page content in Container — never set max-width ad-hoc
+## Wrap page content in Container — never override its built-in sizing
 
 Page-level content must be wrapped in a `Container` to enforce a consistent max-width and horizontal centering. This ensures the content width can be adjusted project-wide from a single place.
 
+Do not override Container's built-in `max-w-*` or `py-*` via `className` — those values are the whole point of the component. If you need a different max-width or vertical padding, change the Container source once rather than overriding per-usage.
+
 ```tsx
-// ✓ correct — Container controls max-width and centering
+// ✓ correct
 <Container>
-  <Section title="Exercises">
-    <ExerciseList />
-  </Section>
+  <PageContent />
 </Container>
 
-// ✗ avoid — no width constraint, content stretches to full viewport
-<Section title="Exercises" className="p-6">
-  <ExerciseList />
-</Section>
+// ✗ avoid — overriding Container's built-in sizing
+<Container className="max-w-4xl py-12">
+  <PageContent />
+</Container>
 ```
 
 ## Missing primitives — install all, not one
@@ -81,7 +81,7 @@ export const Stack = (props: Props) => {
 
 ## Cluster
 
-Horizontal flex container that wraps. Use for groups of tags, badges, buttons, or any set of inline elements that should wrap to the next line when space runs out.
+Horizontal flex container that wraps. Use for groups of tags, badges, buttons, or any set of inline elements that should wrap to the next line when space runs out. Use Cluster for any horizontal grouping — never use a raw `<div className="flex items-center gap-*">` when Cluster does the same thing.
 
 ```tsx
 <Cluster>
@@ -320,6 +320,7 @@ type SectionVariants = VariantProps<typeof sectionVariants>;
 
 type Props = SectionVariants & {
   title: string;
+  description?: string;
   action?: React.ReactNode;
   className?: string;
   children: React.ReactNode;
@@ -327,6 +328,9 @@ type Props = SectionVariants & {
 
 export const Section = (props: Props) => {
   const title = <h2>{props.title}</h2>;
+  const description = props.description ? (
+    <p className="text-sm text-muted-foreground">{props.description}</p>
+  ) : null;
   const titleWithAction = (
     <Split>
       {title}
@@ -337,6 +341,7 @@ export const Section = (props: Props) => {
   return (
     <section className={cn(sectionVariants({ variant: props.variant }), props.className)}>
       {props.action ? titleWithAction : title}
+      {description}
       {props.children}
     </section>
   );
