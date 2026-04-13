@@ -115,6 +115,14 @@ type LoginInput = {
 
 For any runtime validation of unknown input (search params, route params, API payloads, env vars, external responses), define a Zod schema and parse. Do not hand-roll validation with `Set` whitelists, `if` chains, or `as` casts — a schema validates, narrows, and types in one step via `z.infer`.
 
+## Reuse types — never redefine the same shape twice
+
+If a type already exists, import it. Never re-declare the same union, object shape, or enum in another file. Duplicated types drift silently and force every caller to update multiple places when the shape changes.
+
+- The Zod schema (or its `z.infer` type) is the single source of truth — downstream code imports from there, never inlines `"a" | "b"` literals that a schema already defines.
+- When a domain type is used in 2+ files, define it once in the layer that owns it (usually `features/[feature]/schemas/` or `features/[feature]/types/`) and import from there. Do not re-export through intermediary files.
+- If you catch yourself writing a literal union, `Record<"x" | "y", ...>`, or a type alias that matches an existing schema/enum, import the existing one instead.
+
 ## Naming
 
 - PascalCase for all types: `UserProfile`, `CreatePostInput`, `ApiError`
