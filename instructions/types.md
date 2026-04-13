@@ -111,6 +111,10 @@ type LoginInput = {
 };
 ```
 
+## Validate unknown input with Zod
+
+For any runtime validation of unknown input (search params, route params, API payloads, env vars, external responses), define a Zod schema and parse. Do not hand-roll validation with `Set` whitelists, `if` chains, or `as` casts — a schema validates, narrows, and types in one step via `z.infer`.
+
 ## Naming
 
 - PascalCase for all types: `UserProfile`, `CreatePostInput`, `ApiError`
