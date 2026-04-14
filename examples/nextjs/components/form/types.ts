@@ -1,4 +1,4 @@
-export type FormOption = {
-  value: string;
+export type FormOption<T = string> = {
+  value: T;
   label: string;
 };
