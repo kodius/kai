@@ -2,15 +2,23 @@
 
 This project uses a feature-based folder structure with Next.js App Router.
 
-## Prerequisites — install shadcn skill
+## Prerequisites — shadcn skill
 
-Before generating code, check if `.claude/skills/shadcn` (or `.agents/skills/shadcn`) exists in the project. If it does not, install it:
+This project uses shadcn/ui. Whenever you generate, modify, or compose shadcn components (anything from `@/components/ui/*`, forms, dialogs, tables, etc.), you must use the `shadcn` skill — it provides component APIs, composition rules, theming, and project config awareness.
 
-```bash
-pnpm dlx skills add shadcn/ui --yes
-```
+**Before generating shadcn-related code:**
 
-This gives the AI full knowledge of shadcn component APIs, composition rules, and project config. Do not skip this step.
+1. Check whether the `shadcn` skill is available (look for `.claude/skills/shadcn` or `.agents/skills/shadcn` in the project, or for `shadcn` in the loaded skills list).
+2. If available, invoke it via the Skill tool when starting shadcn work.
+3. If **not** available, **ask the user** before installing — do not auto-install. Suggest:
+
+   ```bash
+   pnpm dlx skills add shadcn/ui
+   ```
+
+   Wait for the user to confirm before running the install.
+
+Do not generate shadcn component code without the skill loaded — guessing component APIs leads to broken code.
 
 ## Top-level layout
 
