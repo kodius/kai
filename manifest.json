@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "presets": [
     {
       "id": "nextjs",
@@ -13,55 +13,55 @@
       "id": "project-structure",
       "name": "Project Structure",
       "description": "Project structure and file organization conventions",
-      "filename": "project-structure.md",
       "category": "frontend",
       "tags": ["structure", "typescript"],
-      "trigger": "When working on project file/folder structure or organizing code"
+      "trigger": "When working on project file/folder structure or organizing code",
+      "files": ["index.md"]
     },
     {
       "id": "form",
       "name": "Forms",
       "description": "Form field components with react-hook-form, shadcn Form primitives, and reusable Form* wrapper pattern",
-      "filename": "form.md",
       "category": "frontend",
       "tags": ["forms", "validation", "react-hook-form", "shadcn"],
-      "trigger": "When building or modifying forms, form fields, or form validation"
+      "trigger": "When building or modifying forms, form fields, or form validation",
+      "files": ["index.md", "form-common.md", "form-input.md", "form-select.md"]
     },
     {
       "id": "react",
       "name": "React",
       "description": "React with TypeScript, component patterns, hooks",
-      "filename": "react.md",
       "category": "frontend",
       "tags": ["react", "typescript", "frontend"],
-      "trigger": "When writing React components or hooks"
+      "trigger": "When writing React components or hooks",
+      "files": ["index.md", "react-common.md", "react-conditional-rendering.md", "react-query.md"]
     },
     {
       "id": "types",
       "name": "TypeScript Types",
       "description": "TypeScript typing conventions: type vs interface, no any, Zod inference, discriminated unions",
-      "filename": "types.md",
       "category": "frontend",
       "tags": ["typescript", "types"],
-      "trigger": "When defining or working with TypeScript types"
+      "trigger": "When defining or working with TypeScript types",
+      "files": ["index.md", "types-common.md", "types-utility-types.md", "types-zod.md"]
     },
     {
       "id": "primitives",
       "name": "Layout Primitives",
       "description": "Tailwind layout primitives: Stack, Cluster, Split, Switcher, Grid — with source for scaffolding",
-      "filename": "primitives.md",
       "category": "frontend",
       "tags": ["layout", "react", "tailwind"],
-      "trigger": "When building layout or composing UI structure"
+      "trigger": "When building layout or composing UI structure",
+      "files": ["index.md"]
     },
     {
       "id": "nextjs",
       "name": "Next.js",
       "description": "Next.js patterns: data fetching, streaming, Suspense, server components",
-      "filename": "nextjs.md",
       "category": "frontend",
       "tags": ["nextjs", "react", "server-components", "streaming"],
-      "trigger": "When fetching data, using server components, or working with Next.js routing"
+      "trigger": "When fetching data, using server components, or working with Next.js routing",
+      "files": ["index.md"]
     }
   ]
 }
