@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "preset": "nextjs",
+  "installedAt": "2026-04-03T08:20:43.011Z",
+  "updatedAt": "2026-04-13T07:11:25.940Z",
+  "instructions": [
+    {
+      "id": "project-structure",
+      "filename": "project-structure.md",
+      "installedAt": "2026-04-13T07:11:25.741Z",
+      "sourceUrl": "https://raw.githubusercontent.com/kodius/kai/master/instructions/project-structure.md"
+    },
+    {
+      "id": "form",
+      "filename": "form.md",
+      "installedAt": "2026-04-13T07:11:25.839Z",
+      "sourceUrl": "https://raw.githubusercontent.com/kodius/kai/master/instructions/form.md"
+    },
+    {
+      "id": "react",
+      "filename": "react.md",
+      "installedAt": "2026-04-13T07:11:25.939Z",
+      "sourceUrl": "https://raw.githubusercontent.com/kodius/kai/master/instructions/react.md"
+    },
+    {
+      "id": "types",
+      "filename": "types.md",
+      "installedAt": "2026-04-13T07:11:25.928Z",
+      "sourceUrl": "https://raw.githubusercontent.com/kodius/kai/master/instructions/types.md"
+    },
+    {
+      "id": "primitives",
+      "filename": "primitives.md",
+      "installedAt": "2026-04-13T07:11:25.839Z",
+      "sourceUrl": "https://raw.githubusercontent.com/kodius/kai/master/instructions/primitives.md"
+    },
+    {
+      "id": "nextjs",
+      "filename": "nextjs.md",
+      "installedAt": "2026-04-13T07:11:25.834Z",
+      "sourceUrl": "https://raw.githubusercontent.com/kodius/kai/master/instructions/nextjs.md"
+    }
+  ]
+}
