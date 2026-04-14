@@ -13,7 +13,7 @@ import {
 describe("buildManagedBlock", () => {
   it("builds block with trigger as prose sentence", () => {
     const result = buildManagedBlock([
-      { filename: "react.md", trigger: "When writing React components or hooks" },
+      { indexFilename: "react.md", trigger: "When writing React components or hooks" },
     ]);
 
     expect(result).toBe(
@@ -23,8 +23,8 @@ describe("buildManagedBlock", () => {
 
   it("builds block with multiple instructions separated by blank lines", () => {
     const result = buildManagedBlock([
-      { filename: "react.md", trigger: "When writing React components or hooks" },
-      { filename: "form.md", trigger: "When building or modifying forms" },
+      { indexFilename: "react.md", trigger: "When writing React components or hooks" },
+      { indexFilename: "form.md", trigger: "When building or modifying forms" },
     ]);
 
     expect(result).toContain("When writing React components or hooks, read `.kai/react.md`.");
@@ -34,7 +34,7 @@ describe("buildManagedBlock", () => {
   });
 
   it("falls back to @import when trigger is empty", () => {
-    const result = buildManagedBlock([{ filename: "react.md", trigger: "" }]);
+    const result = buildManagedBlock([{ indexFilename: "react.md", trigger: "" }]);
 
     expect(result).toContain("@.kai/react.md");
   });
@@ -60,7 +60,9 @@ describe("replaceManagedBlock", () => {
       "# Custom stuff",
     ].join("\n");
 
-    const newBlock = buildManagedBlock([{ filename: "react.md", trigger: "When writing React components or hooks" }]);
+    const newBlock = buildManagedBlock([
+      { indexFilename: "react.md", trigger: "When writing React components or hooks" },
+    ]);
     const result = replaceManagedBlock(existing, newBlock);
 
     expect(result).toContain("# My Project");
