@@ -1,8 +1,11 @@
 import { GITHUB_RAW_BASE, MANIFEST_URL } from "./constants.js";
 import type { Manifest } from "../types/index.js";
 
-export function getInstructionUrl(filename: string): string {
-  return `${GITHUB_RAW_BASE}/instructions/${filename}`;
+export function getInstructionUrl(
+  instructionId: string,
+  filename: string,
+): string {
+  return `${GITHUB_RAW_BASE}/instructions/${instructionId}/${filename}`;
 }
 
 export async function fetchText(url: string): Promise<string> {

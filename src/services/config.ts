@@ -26,39 +26,6 @@ export async function writeConfig(config: KaiConfig): Promise<void> {
   await writeText(configPath, JSON.stringify(config, null, 2));
 }
 
-export function mergeConfig(
-  existing: KaiConfig | null,
-  newInstructions: InstalledInstruction[],
-): KaiConfig {
-  const now = new Date().toISOString();
-
-  if (!existing) {
-    return {
-      version: 1,
-      preset: "",
-      installedAt: now,
-      updatedAt: now,
-      instructions: newInstructions,
-    };
-  }
-
-  const merged = new Map<string, InstalledInstruction>();
-
-  for (const inst of existing.instructions) {
-    merged.set(inst.id, inst);
-  }
-
-  for (const inst of newInstructions) {
-    merged.set(inst.id, inst);
-  }
-
-  return {
-    ...existing,
-    updatedAt: now,
-    instructions: Array.from(merged.values()),
-  };
-}
-
 export function buildPresetConfig(
   existing: KaiConfig | null,
   presetId: string,
@@ -67,7 +34,7 @@ export function buildPresetConfig(
   const now = new Date().toISOString();
 
   return {
-    version: 1,
+    version: 2,
     preset: presetId,
     installedAt: existing?.installedAt ?? now,
     updatedAt: now,

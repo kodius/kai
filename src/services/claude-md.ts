@@ -11,7 +11,7 @@ import { fileExists, readText, writeText } from "../utils/fs.js";
 import type { ClaudeMdPlacement } from "../types/index.js";
 
 export interface InstructionRef {
-  filename: string;
+  indexFilename: string;
   trigger: string;
 }
 
@@ -19,8 +19,8 @@ export function buildManagedBlock(instructions: InstructionRef[]): string {
   const lines = instructions
     .map((i) =>
       i.trigger
-        ? `${i.trigger}, read \`.kai/${i.filename}\`.`
-        : `@${KAI_DIR}/${i.filename}`,
+        ? `${i.trigger}, read \`.kai/${i.indexFilename}\`.`
+        : `@${KAI_DIR}/${i.indexFilename}`,
     )
     .join("\n\n");
 

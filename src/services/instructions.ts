@@ -11,30 +11,49 @@ export interface DownloadResult {
   error?: string;
 }
 
+/**
+ * Maps a source filename to its local .kai/ filename.
+ * The index file (e.g. react.md) keeps its name.
+ * Sub-files get prefixed with the instruction id (e.g. react-common.md).
+ */
+export function toLocalFilename(
+  instructionId: string,
+  sourceFilename: string,
+): string {
+  if (sourceFilename === "index.md") {
+    return `${instructionId}.md`;
+  }
+  return sourceFilename;
+}
+
 export async function downloadInstructions(
   selections: InstructionMeta[],
 ): Promise<DownloadResult[]> {
   const s = spinner();
-  s.start(`Downloading ${selections.length} instruction set(s)...`);
+  const totalFiles = selections.reduce((n, m) => n + m.files.length, 0);
+  s.start(`Downloading ${totalFiles} file(s)...`);
 
   const dir = join(process.cwd(), KAI_DIR);
   await ensureDir(dir);
 
   const results = await Promise.all(
     selections.map(async (meta): Promise<DownloadResult> => {
-      const sourceUrl = getInstructionUrl(meta.filename);
-
       try {
-        const content = await fetchText(sourceUrl);
-        const filePath = join(dir, meta.filename);
-        await writeText(filePath, content);
+        const localFilenames: string[] = [];
+
+        for (const file of meta.files) {
+          const sourceUrl = getInstructionUrl(meta.id, file);
+          const localName = toLocalFilename(meta.id, file);
+          const content = await fetchText(sourceUrl);
+          await writeText(join(dir, localName), content);
+          localFilenames.push(localName);
+        }
 
         return {
           instruction: {
             id: meta.id,
-            filename: meta.filename,
+            filenames: localFilenames,
             installedAt: new Date().toISOString(),
-            sourceUrl,
           },
           success: true,
         };
@@ -42,9 +61,8 @@ export async function downloadInstructions(
         return {
           instruction: {
             id: meta.id,
-            filename: meta.filename,
+            filenames: [],
             installedAt: new Date().toISOString(),
-            sourceUrl,
           },
           success: false,
           error:
@@ -68,9 +86,13 @@ export async function downloadInstructions(
   return results;
 }
 
-export async function deleteInstruction(filename: string): Promise<void> {
-  const filePath = join(process.cwd(), KAI_DIR, filename);
-  if (await fileExists(filePath)) {
-    await deleteFile(filePath);
+export async function deleteInstructionFiles(
+  filenames: string[],
+): Promise<void> {
+  for (const filename of filenames) {
+    const filePath = join(process.cwd(), KAI_DIR, filename);
+    if (await fileExists(filePath)) {
+      await deleteFile(filePath);
+    }
   }
 }

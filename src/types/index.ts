@@ -2,10 +2,10 @@ export interface InstructionMeta {
   id: string;
   name: string;
   description: string;
-  filename: string;
   category: string;
   tags: string[];
   trigger: string;
+  files: string[];
 }
 
 export interface PresetMeta {
@@ -23,9 +23,8 @@ export interface Manifest {
 
 export interface InstalledInstruction {
   id: string;
-  filename: string;
+  filenames: string[];
   installedAt: string;
-  sourceUrl: string;
 }
 
 export interface KaiConfig {
