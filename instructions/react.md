@@ -159,6 +159,10 @@ return (
 );
 ```
 
+## Conditional rendering — extract multi-line ternary branches to consts
+
+When a ternary inside JSX has branches that span multiple lines, extract each branch to a named `const` before the return. The ternary in JSX should read as a simple one-liner.
+
 ## Fragments
 
 Use `<>` shorthand. Only use `<React.Fragment>` when a `key` prop is required.
