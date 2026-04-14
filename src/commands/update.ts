@@ -1,7 +1,11 @@
 import { intro, log, outro } from "@clack/prompts";
 import { readConfig, writeConfig, buildPresetConfig } from "../services/config.js";
 import { fetchManifest } from "../services/manifest.js";
-import { downloadInstructions, deleteInstruction } from "../services/instructions.js";
+import {
+  downloadInstructions,
+  deleteInstructionFiles,
+  toLocalFilename,
+} from "../services/instructions.js";
 import { handleClaudeMd } from "../services/claude-md.js";
 
 export async function updateCommand(): Promise<void> {
@@ -26,21 +30,16 @@ export async function updateCommand(): Promise<void> {
     return;
   }
 
-  const installedIds = new Set(config.instructions.map((i) => i.id));
   const presetIds = new Set(preset.instructions);
 
-  const toAdd = preset.instructions.filter((id) => !installedIds.has(id));
+  // Delete files from instructions no longer in the preset
   const toRemove = config.instructions.filter((i) => !presetIds.has(i.id));
-  const toUpdate = preset.instructions.filter((id) => installedIds.has(id));
-
-  // Delete removed files
   for (const inst of toRemove) {
-    await deleteInstruction(inst.filename);
+    await deleteInstructionFiles(inst.filenames);
   }
 
-  // Download new + existing files
-  const idsToDownload = [...toUpdate, ...toAdd];
-  const instructionMetas = idsToDownload
+  // Download all instructions in the preset (overwrite)
+  const instructionMetas = preset.instructions
     .map((id) => manifest.instructions.find((i) => i.id === id))
     .filter((i) => i !== undefined);
 
@@ -58,22 +57,18 @@ export async function updateCommand(): Promise<void> {
     }
   }
 
-  const addedCount = successful.filter((s) => toAdd.includes(s.id)).length;
-  const updatedCount = successful.filter((s) => toUpdate.includes(s.id)).length;
   const removedCount = toRemove.length;
-
-  const parts: string[] = [];
-  if (updatedCount > 0) parts.push(`${updatedCount} updated`);
-  if (addedCount > 0) parts.push(`${addedCount} added`);
-  if (removedCount > 0) parts.push(`${removedCount} removed`);
-  if (parts.length > 0) log.info(parts.join(", "));
+  if (removedCount > 0) {
+    log.info(`${removedCount} instruction(s) removed.`);
+  }
 
   const updatedConfig = buildPresetConfig(config, config.preset, successful);
   await writeConfig(updatedConfig);
 
   const instructionRefs = updatedConfig.instructions.map((inst) => {
     const meta = manifest.instructions.find((m) => m.id === inst.id);
-    return { filename: inst.filename, trigger: meta?.trigger ?? "" };
+    const indexFilename = toLocalFilename(inst.id, "index.md");
+    return { indexFilename, trigger: meta?.trigger ?? "" };
   });
   await handleClaudeMd(instructionRefs);
 

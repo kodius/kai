@@ -1,7 +1,11 @@
 import { intro, select, log, outro, isCancel } from "@clack/prompts";
 import { fetchManifest } from "../services/manifest.js";
 import { readConfig, writeConfig, buildPresetConfig } from "../services/config.js";
-import { downloadInstructions, deleteInstruction } from "../services/instructions.js";
+import {
+  downloadInstructions,
+  deleteInstructionFiles,
+  toLocalFilename,
+} from "../services/instructions.js";
 import { handleClaudeMd } from "../services/claude-md.js";
 
 export async function installCommand(): Promise<void> {
@@ -46,7 +50,7 @@ export async function installCommand(): Promise<void> {
       (i) => !newInstructionIds.has(i.id),
     );
     for (const inst of toDelete) {
-      await deleteInstruction(inst.filename);
+      await deleteInstructionFiles(inst.filenames);
     }
   }
 
@@ -79,7 +83,8 @@ export async function installCommand(): Promise<void> {
 
   const instructionRefs = newConfig.instructions.map((inst) => {
     const meta = manifest.instructions.find((m) => m.id === inst.id);
-    return { filename: inst.filename, trigger: meta?.trigger ?? "" };
+    const indexFilename = toLocalFilename(inst.id, "index.md");
+    return { indexFilename, trigger: meta?.trigger ?? "" };
   });
   await handleClaudeMd(instructionRefs);
 
