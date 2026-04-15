@@ -9,10 +9,10 @@ import type { Exercise } from "@/features/exercises/types/exercise";
 
 export const getExercisesQueryKey = ["exercises"];
 
-export const useGetExercises = (
-  options?: Partial<UseQueryOptions<Exercise[], Error>>,
-): UseQueryResult<Exercise[], Error> =>
-  useQuery<Exercise[], Error>({
+export const useGetExercises = <TData = Exercise[]>(
+  options?: Partial<UseQueryOptions<Exercise[], Error, TData>>,
+): UseQueryResult<TData, Error> =>
+  useQuery<Exercise[], Error, TData>({
     queryKey: getExercisesQueryKey,
     queryFn: getExercisesAction,
     ...options,
