@@ -20,17 +20,18 @@ import { Spinner } from "@/components/ui/spinner";
 
 import type { FormOption } from "@/components/form/types";
 
-export type FormSelectProps<T extends FieldValues> = {
+export type FormSelectProps<T extends FieldValues, TValue extends string = string> = {
   name: Path<T>;
   label: string;
-  options: FormOption[];
+  options: FormOption<TValue>[];
   placeholder?: string;
   open?: boolean;
-  onOpenChange?: (open: boolean) => void;
+  onOpenChangeAction?: (open: boolean) => void;
+  onSelectAction?: (option: FormOption<TValue>) => void;
   isLoading?: boolean;
 };
 
-export const FormSelect = <T extends FieldValues>(props: FormSelectProps<T>) => {
+export const FormSelect = <T extends FieldValues, TValue extends string = string>(props: FormSelectProps<T, TValue>) => {
   const form = useFormContext<T>();
   const id = useId();
 
@@ -55,9 +56,13 @@ export const FormSelect = <T extends FieldValues>(props: FormSelectProps<T>) => 
             <Select
               name={field.name}
               value={field.value}
-              onValueChange={field.onChange}
+              onValueChange={(value) => {
+                field.onChange(value);
+                const selected = props.options.find((o) => o.value === value);
+                if (selected) props.onSelectAction?.(selected);
+              }}
               open={props.open}
-              onOpenChange={props.onOpenChange}
+              onOpenChange={props.onOpenChangeAction}
             >
               <SelectTrigger id={id} aria-invalid={fieldState.invalid}>
                 <SelectValue placeholder={props.placeholder} />

@@ -31,7 +31,7 @@ export const ExercisesFormSelect = <T extends FieldValues>(
       label={props.label || "Select Exercise"}
       options={options}
       open={open}
-      onOpenChange={setOpen}
+      onOpenChangeAction={setOpen}
       isLoading={isLoading}
     />
   );
