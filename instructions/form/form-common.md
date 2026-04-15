@@ -11,12 +11,12 @@ File location: `components/form/form-{name}/form-{name}.tsx`
 Every `Form*` component follows the same structure:
 
 1. `"use client"` directive
-2. Generic `<T extends FieldValues>` for type-safe field paths
+2. Generic `<T extends FieldValues>` for type-safe field paths. Add a second generic `<TValue extends string = string>` when the field stores a structured value that callers should narrow to a string-literal union (e.g. `FormCombobox`, `FormRadioGroup` — `options: FormOption<TValue>[]`).
 3. `useFormContext<T>()` to get `control` — never accept `control` as a prop
 4. `useId()` for accessible label linking
 5. `Controller` from react-hook-form to connect field state
 6. `Field` / `FieldLabel` / `FieldError` from `@/components/ui/field` for layout and error display
-7. Export the props type so wrapper components can extend it
+7. Keep the `Props` type local (unexported) by default. Export it — named `Form{X}Props` — only when another component wraps this one and needs to extend the prop shape (e.g. `FormSelectProps` is exported because feature-specific selects wrap `FormSelect`).
 
 ## Naming — prefix Form + PascalCase component name
 
@@ -38,8 +38,8 @@ RHFInput
 When a field stores a structured value (label + value pair), use the shared `FormOption` type instead of a plain string.
 
 ```tsx
-export type FormOption<T extends string = string> = {
-  label: string;
+export type FormOption<T = string> = {
   value: T;
+  label: string;
 };
 ```
