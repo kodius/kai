@@ -40,7 +40,7 @@ type Props = PropsWithChildren<{
 const Section = (props: Props) => { ... };
 
 // ✓ correct — no props, no type needed
-const Spinner = () => <div className="spinner" />;
+const Spinner = () => <LoadingSpinner />;
 ```
 
 ## Component definition
@@ -97,8 +97,6 @@ A component should do one thing. Extract a new component when a section has its 
 
 Always create smaller components even for non-reused pieces — if something is logically distinct (a footer, a branding block, a nav bar), it should be its own component. This keeps pages declarative and readable.
 
-Layout-level components like footers, headers, and navigation should if possible be placed in the `layout.tsx` file rather than in individual pages.
-
 Extracted components must live in their own file in a dedicated folder — never as a `const` in the page file. Pages should only import and compose components, not define them.
 
 ## Custom hooks
@@ -107,7 +105,7 @@ Name all custom hooks with the `use` prefix.
 
 ## Use UI components — never hand-style common patterns
 
-Do not recreate recognizable UI patterns (badges, tooltips, avatars, alerts, etc.) with raw Tailwind classes. Use existing component library components (shadcn/ui) instead. If the component isn't installed yet, install it first (`pnpm dlx shadcn@latest add <component>`).
+Do not recreate recognizable UI patterns (badges, tooltips, avatars, alerts, etc.) with raw styling. Use the project's established component library instead.
 
 ## Memoization
 

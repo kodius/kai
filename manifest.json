@@ -6,6 +6,12 @@
       "name": "Next (Frontend)",
       "description": "Next.js with TypeScript, project structure, forms, and component patterns",
       "instructions": ["project-structure", "form", "react", "types", "primitives", "nextjs"]
+    },
+    {
+      "id": "react-native",
+      "name": "React Native",
+      "description": "React Native with TypeScript, Expo Router, project structure, and component patterns",
+      "instructions": ["react-native-project-structure", "react", "types", "react-native"]
     }
   ],
   "instructions": [
@@ -62,6 +68,24 @@
       "tags": ["nextjs", "react", "server-components", "streaming"],
       "trigger": "When fetching data, using server components, or working with Next.js routing",
       "files": ["index.md"]
+    },
+    {
+      "id": "react-native-project-structure",
+      "name": "RN Project Structure",
+      "description": "Expo project structure with feature-based folder organization",
+      "category": "mobile",
+      "tags": ["structure", "react-native", "expo"],
+      "trigger": "When working on project file/folder structure or organizing code in a React Native project",
+      "files": ["index.md"]
+    },
+    {
+      "id": "react-native",
+      "name": "React Native",
+      "description": "React Native patterns: components, platform code, navigation, styling with Expo",
+      "category": "mobile",
+      "tags": ["react-native", "expo", "mobile", "nativewind"],
+      "trigger": "When writing React Native components, navigation, or platform-specific code",
+      "files": ["index.md", "react-native-common.md", "react-native-styling.md"]
     }
   ]
 }
