@@ -115,6 +115,10 @@ features/auth/components/login-form.tsx
 features/auth/components/login-form.test.tsx
 ```
 
+## Managed Expo — never modify ios/ or android/
+
+This is a managed Expo project. The `ios/` and `android/` folders are generated and maintained by Expo (via prebuild). Never create, modify, or commit files in these directories manually. All native configuration goes through `app.json` / `app.config.ts` and config plugins.
+
 ## No barrel files
 
 Import directly from the source file, not from an `index.ts` re-export:
