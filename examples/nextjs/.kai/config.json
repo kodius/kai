@@ -1,44 +1,59 @@
 {
-  "version": 1,
+  "version": 2,
   "preset": "nextjs",
-  "installedAt": "2026-04-03T08:20:43.011Z",
-  "updatedAt": "2026-04-13T07:11:25.940Z",
+  "installedAt": "2026-04-16T06:01:09.568Z",
+  "updatedAt": "2026-04-16T06:01:09.568Z",
   "instructions": [
     {
       "id": "project-structure",
-      "filename": "project-structure.md",
-      "installedAt": "2026-04-13T07:11:25.741Z",
-      "sourceUrl": "https://raw.githubusercontent.com/kodius/kai/master/instructions/project-structure.md"
+      "filenames": [
+        "project-structure.md"
+      ],
+      "installedAt": "2026-04-16T06:01:09.375Z"
     },
     {
       "id": "form",
-      "filename": "form.md",
-      "installedAt": "2026-04-13T07:11:25.839Z",
-      "sourceUrl": "https://raw.githubusercontent.com/kodius/kai/master/instructions/form.md"
+      "filenames": [
+        "form.md",
+        "form-common.md",
+        "form-input.md",
+        "form-select.md"
+      ],
+      "installedAt": "2026-04-16T06:01:09.522Z"
     },
     {
       "id": "react",
-      "filename": "react.md",
-      "installedAt": "2026-04-13T07:11:25.939Z",
-      "sourceUrl": "https://raw.githubusercontent.com/kodius/kai/master/instructions/react.md"
+      "filenames": [
+        "react.md",
+        "react-common.md",
+        "react-conditional-rendering.md",
+        "react-query.md"
+      ],
+      "installedAt": "2026-04-16T06:01:09.567Z"
     },
     {
       "id": "types",
-      "filename": "types.md",
-      "installedAt": "2026-04-13T07:11:25.928Z",
-      "sourceUrl": "https://raw.githubusercontent.com/kodius/kai/master/instructions/types.md"
+      "filenames": [
+        "types.md",
+        "types-common.md",
+        "types-utility-types.md",
+        "types-zod.md"
+      ],
+      "installedAt": "2026-04-16T06:01:09.542Z"
     },
     {
       "id": "primitives",
-      "filename": "primitives.md",
-      "installedAt": "2026-04-13T07:11:25.839Z",
-      "sourceUrl": "https://raw.githubusercontent.com/kodius/kai/master/instructions/primitives.md"
+      "filenames": [
+        "primitives.md"
+      ],
+      "installedAt": "2026-04-16T06:01:09.424Z"
     },
     {
       "id": "nextjs",
-      "filename": "nextjs.md",
-      "installedAt": "2026-04-13T07:11:25.834Z",
-      "sourceUrl": "https://raw.githubusercontent.com/kodius/kai/master/instructions/nextjs.md"
+      "filenames": [
+        "nextjs.md"
+      ],
+      "installedAt": "2026-04-16T06:01:09.388Z"
     }
   ]
 }

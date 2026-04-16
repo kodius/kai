@@ -1,5 +1,35 @@
 # Next.js
 
+## Layout-level components belong in `layout.tsx`
+
+Layout-level components like headers, navigation, and footers should be placed in the `layout.tsx` file rather than in individual pages. This keeps pages focused on content and ensures layout is consistent across routes.
+
+```tsx
+// app/layout.tsx — ✓ correct
+export default function RootLayout(props: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <Header />
+        <main>{props.children}</main>
+        <Footer />
+      </body>
+    </html>
+  );
+}
+
+// app/dashboard/page.tsx — ✗ avoid repeating layout in pages
+export default function DashboardPage() {
+  return (
+    <>
+      <Header />
+      <DashboardContent />
+      <Footer />
+    </>
+  );
+}
+```
+
 ## Stream async data with Suspense — never block the page
 
 Async server components that fetch data must be wrapped in `<Suspense>` to stream the response. This prevents the entire page from blocking while data loads. Always use `<Spinner />` from shadcn as the default fallback — do not use `<Skeleton />`, `null`, or other placeholders unless the user explicitly requests it.
