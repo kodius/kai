@@ -73,6 +73,31 @@ export default function DashboardPage() {
 }
 ```
 
+## Read search params in the page — never `useSearchParams` in client components
+
+`searchParams` is a prop provided by the framework to the page. Read and await it there, then pass the resolved values down as props to client components. Do not call `useSearchParams()` in client components — it fragments the source of truth and couples components to the route.
+
+Define and export two types per page: `{PageName}SearchParams` for the raw shape, and `{PageName}Props` that wraps it in a `Promise`. Reuse `{PageName}SearchParams` as the prop type on child components so the page and its children share the same source of truth.
+
+```tsx
+// app/page.tsx — ✓ correct
+import { StatsPolling } from "@/features/dashboard/components/stats-polling";
+
+export type HomePageSearchParams = { range?: "week" | "month" | "all" };
+export type HomePageProps = { searchParams: Promise<HomePageSearchParams> };
+
+export default async function HomePage(props: HomePageProps) {
+  const searchParams = await props.searchParams;
+  return <StatsPolling searchParams={searchParams} />;
+}
+
+// features/dashboard/components/stats-polling.tsx — ✓ correct
+import type { HomePageSearchParams } from "@/app/page";
+
+type Props = { searchParams: HomePageSearchParams };
+export const StatsPolling = (props: Props) => { ... };
+```
+
 ## Enable typed routes — always set typedRoutes in next.config
 
 Next.js typed routes make `href` on `<Link>` statically type-checked against real routes. Always enable this so TypeScript catches broken links at compile time.

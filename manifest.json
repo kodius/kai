@@ -11,7 +11,7 @@
       "id": "react-native",
       "name": "React Native",
       "description": "React Native with TypeScript, Expo Router, project structure, and component patterns",
-      "instructions": ["react-native-project-structure", "react", "types", "react-native"]
+      "instructions": ["react-native-project-structure", "react", "types", "react-native", "react-native-form", "primitives-react-native"]
     }
   ],
   "instructions": [
@@ -86,6 +86,24 @@
       "tags": ["react-native", "expo", "mobile", "nativewind"],
       "trigger": "When writing React Native components, navigation, or platform-specific code",
       "files": ["index.md", "react-native-common.md", "react-native-styling.md"]
+    },
+    {
+      "id": "react-native-form",
+      "name": "RN Forms",
+      "description": "Form field components for React Native with react-hook-form and reusable Form* wrapper pattern",
+      "category": "mobile",
+      "tags": ["forms", "validation", "react-hook-form", "react-native"],
+      "trigger": "When building or modifying forms, form fields, or form validation in a React Native project",
+      "files": ["index.md", "form-common.md", "form-input.md"]
+    },
+    {
+      "id": "primitives-react-native",
+      "name": "RN Layout Primitives",
+      "description": "React Native layout primitives (VStack, Cluster, Split, Section) with source for scaffolding",
+      "category": "mobile",
+      "tags": ["layout", "react-native", "nativewind", "primitives"],
+      "trigger": "When building layout, composing UI structure, or spacing elements in a React Native project",
+      "files": ["index.md"]
     }
   ]
 }

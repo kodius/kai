@@ -43,6 +43,24 @@ const Section = (props: Props) => { ... };
 const Spinner = () => <LoadingSpinner />;
 ```
 
+## Naming collisions — prefix custom components with `_`
+
+When a custom reusable component shares a name with a built-in or library component commonly used in the same codebase (e.g. React Native's `Text`, `Button`, `View`), prefix the custom component with `_` — `_Text`, `_Button`. This makes it immediately clear at the call site which one is being used and avoids aliasing the import everywhere. The custom component's file still uses the lowercase name (`components/ui/text.tsx`).
+
+## Extend the underlying component's props
+
+When a component wraps a built-in element or a library component, extend that component's props type instead of hand-picking a subset. Callers get the full underlying API for free and pass-through props don't have to be re-declared one by one.
+
+```tsx
+type Props = Omit<PressableProps, "children"> & {
+  children: string;
+  variant?: Variant;
+  loading?: boolean;
+};
+```
+
+Use `Omit<Base, "x">` only when the wrapper deliberately narrows or overrides a base prop (e.g. restricting `children` to `string`). Spread the props onto the base component in the render and override only the fields the wrapper controls.
+
 ## Component definition
 
 Always use arrow functions. Always use named exports.
@@ -99,6 +117,10 @@ Always create smaller components even for non-reused pieces — if something is 
 
 Extracted components must live in their own file in a dedicated folder — never as a `const` in the page file. Pages should only import and compose components, not define them.
 
+## Isolate high-frequency state in its own component
+
+State that updates on a fast interval — timers, tickers, animation frames, mouse or scroll position — must live in its own small component. If it sits in a parent, every tick re-renders the entire subtree and siblings that don't depend on the value pay the cost. Push the fast-changing state as far down the tree as possible so only the leaf that displays it re-renders.
+
 ## Custom hooks
 
 Name all custom hooks with the `use` prefix.
@@ -110,3 +132,24 @@ Do not recreate recognizable UI patterns (badges, tooltips, avatars, alerts, etc
 ## Memoization
 
 Do not use `React.memo`, `useMemo`, or `useCallback` by default. Apply them only when there is a demonstrated performance problem.
+
+## useEffect — only for external synchronization
+
+Use `useEffect` only to sync React with the outside world: subscriptions, event listeners, imperative library APIs, and mount-time data fetching. Do not use it to react to a state change by firing a side effect (navigation, hiding a splash screen, calling another handler). Fire those side effects directly from the event handler that caused the state to change.
+
+Keep the number of effects minimal. If a component has more than one or two, most of them are probably reactions to state that belong in a handler.
+
+## useState — minimize and combine related state
+
+Don't scatter related fields across multiple `useState` calls that must stay in sync. Combine state that always changes together into a single object, and prefer a discriminated union over parallel flags that represent one status.
+
+```tsx
+type Session =
+  | { status: "loading" }
+  | { status: "authenticated"; token: string }
+  | { status: "unauthenticated" };
+
+const [session, setSession] = useState<Session>({ status: "loading" });
+```
+
+Also prefer deriving values during render over storing them in state.

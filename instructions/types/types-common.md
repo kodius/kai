@@ -47,3 +47,7 @@ const items: Item[] = [];
 const count = 0;
 const label = "submit";
 ```
+
+## Annotate defaulted assignments — don't let inference widen past `??` / `||`
+
+When assigning from a value that uses a fallback (`??`, `||`, or ternary with a literal), annotate the variable with the target union type. Without the annotation, TypeScript infers the union of both sides, so any literal on the right — including a typo or an out-of-domain value — passes type-checking and silently widens the type.
