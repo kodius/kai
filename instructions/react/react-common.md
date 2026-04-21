@@ -43,6 +43,12 @@ const Section = (props: Props) => { ... };
 const Spinner = () => <LoadingSpinner />;
 ```
 
+## Props — only add when the component is reused
+
+Only give a component props when it's actually reused or when a caller needs to vary its content/behavior. For a single-use component extracted just to keep a page declarative (e.g. an auth-screen branding block used once), hardcode the content inside it. Adding `title` / `subtitle` / etc. props to a component that is rendered in exactly one place trades real simplicity for imagined flexibility.
+
+If a second call site later appears and needs to vary the content, lift the hardcoded values to props at that point — not before.
+
 ## Naming collisions — prefix custom components with `_`
 
 When a custom reusable component shares a name with a built-in or library component commonly used in the same codebase (e.g. React Native's `Text`, `Button`, `View`), prefix the custom component with `_` — `_Text`, `_Button`. This makes it immediately clear at the call site which one is being used and avoids aliasing the import everywhere. The custom component's file still uses the lowercase name (`components/ui/text.tsx`).
