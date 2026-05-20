@@ -1,27 +1,46 @@
 # Project Structure
 
-This project uses a feature-based folder structure with Expo Router.
+This project uses a feature-based folder structure with Expo Router, matching the **Expo SDK 55 default template**: everything lives under `src/`, with `@/*` aliased to `./src/*`.
 
 ## Top-level layout
 
 ```
 my-app/
-├── app/                  # Expo Router — routes, layouts, tabs only
-├── features/             # Feature modules (core application logic)
-├── components/           # Shared UI components used across features
-├── hooks/                # Shared React hooks used across features
-├── lib/                  # Shared utilities, helpers, API clients, config
-├── types/                # Shared TypeScript types and interfaces
-├── assets/               # Images, fonts, and other static assets
-└── app.config.ts
+├── src/
+│   ├── app/                  # Expo Router — routes, layouts, tabs only
+│   ├── features/             # Feature modules (core application logic)
+│   ├── components/           # Shared UI components used across features
+│   ├── hooks/                # Shared React hooks used across features
+│   ├── lib/                  # Shared utilities, helpers, API clients, config
+│   ├── types/                # Shared TypeScript types and interfaces
+│   ├── constants/            # Shared constants (theme tokens, etc.)
+│   └── global.css            # Tailwind / NativeWind entry
+├── assets/                   # Images, fonts, and other static assets (stays at root)
+├── scripts/                  # Project scripts (stays at root)
+├── app.json                  # or app.config.ts
+├── tsconfig.json             # `@/*` → `./src/*`
+└── package.json
 ```
+
+Follow the SDK 55 default — do not move folders from `src/` to the repo root. `assets/` and `scripts/` are the exceptions: Expo expects those at the root.
+
+## Path alias — `@/*` resolves to `./src/*`
+
+The default `tsconfig.json` aliases `@/*` to `./src/*`. Imports look the same as before — `@/features/...`, `@/components/...` — but they resolve to files under `src/`.
+
+```ts
+import { LoginForm } from "@/features/auth/components/login-form";
+//                                ^ resolves to src/features/auth/components/login-form
+```
+
+Do not introduce a second alias or change this mapping.
 
 ## app/ — routing only
 
-`app/` contains only Expo Router routing concerns: layouts, pages, tabs, and route groups. No business logic here — screens import from `features/`.
+`src/app/` contains only Expo Router routing concerns: layouts, pages, tabs, and route groups. No business logic here — screens import from `src/features/`.
 
 ```
-app/
+src/app/
 ├── _layout.tsx           # Root layout (providers, fonts, splash)
 ├── index.tsx             # Home / entry screen
 ├── (auth)/
@@ -38,10 +57,10 @@ app/
 
 ## features/ — feature modules
 
-Each feature is a self-contained module. A feature owns everything needed to implement one domain slice.
+Each feature is a self-contained module under `src/features/`. A feature owns everything needed to implement one domain slice.
 
 ```
-features/
+src/features/
 ├── auth/
 │   ├── components/       # UI components scoped to this feature
 │   │   ├── login-form.tsx
@@ -81,25 +100,25 @@ All files and folders use `kebab-case` — no exceptions.
 
 ```
 // ✓ correct
-features/auth/components/login-form.tsx
-features/auth/hooks/use-auth.ts
-features/auth/api/auth-api.ts
+src/features/auth/components/login-form.tsx
+src/features/auth/hooks/use-auth.ts
+src/features/auth/api/auth-api.ts
 
 // ✗ avoid
-features/auth/components/LoginForm.tsx
-features/auth/hooks/useAuth.ts
-features/auth/api/authApi.ts
+src/features/auth/components/LoginForm.tsx
+src/features/auth/hooks/useAuth.ts
+src/features/auth/api/authApi.ts
 ```
 
 ## Shared vs feature-scoped
 
 | Location | Use when |
 |---|---|
-| `features/[feature]/` | Used only within that feature |
-| `components/` | UI component used in 2+ features |
-| `hooks/` | Hook used in 2+ features |
-| `lib/` | Utility, helper, or client used in 2+ features |
-| `types/` | Type used in 2+ features |
+| `src/features/[feature]/` | Used only within that feature |
+| `src/components/` | UI component used in 2+ features |
+| `src/hooks/` | Hook used in 2+ features |
+| `src/lib/` | Utility, helper, or client used in 2+ features |
+| `src/types/` | Type used in 2+ features |
 
 Move code to the shared layer only when it is actually reused. Default to keeping it inside the feature.
 
@@ -108,11 +127,11 @@ Move code to the shared layer only when it is actually reused. Default to keepin
 Test files are co-located next to the file they test:
 
 ```
-features/auth/hooks/use-auth.ts
-features/auth/hooks/use-auth.test.ts
+src/features/auth/hooks/use-auth.ts
+src/features/auth/hooks/use-auth.test.ts
 
-features/auth/components/login-form.tsx
-features/auth/components/login-form.test.tsx
+src/features/auth/components/login-form.tsx
+src/features/auth/components/login-form.test.tsx
 ```
 
 ## Managed Expo — never modify ios/ or android/

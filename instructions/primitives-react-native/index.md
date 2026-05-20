@@ -10,6 +10,25 @@ Do not use margin utility classes (`m-*`, `mb-*`, `mt-*`, etc.) to create spacin
 
 Before using any primitive, check if `components/primitives/` exists in the project. If any primitive file is missing, ask the user to install **all** primitives — not just the one needed for the current task. Scaffold every primitive listed below into `components/primitives/` so the full set is available from the start.
 
+## Compose className with `cn()` — never `.filter(Boolean).join(" ")`
+
+When a wrapper component composes its own default Tailwind classes with a caller-provided `className`, merge them through a `cn()` helper backed by `tailwind-merge`. A plain string concatenation (`.filter(Boolean).join(" ")`) lets both conflicting utilities (e.g. `gap-4` from the default and `gap-0` from the consumer) land on the element; with NativeWind on React Native the resolution is non-deterministic, so the consumer's override silently fails. `tailwind-merge` understands Tailwind's conflict groups and keeps only the later utility per group, so overrides always win.
+
+Install once: `pnpm add tailwind-merge`. Place the helper at `lib/cn.ts`:
+
+```ts
+// lib/cn.ts
+import { twMerge } from "tailwind-merge";
+
+type ClassValue = string | null | undefined | false;
+
+export const cn = (...classes: ClassValue[]): string => {
+  return twMerge(classes.filter(Boolean).join(" "));
+};
+```
+
+Use `cn(...)` in every wrapper that exposes a `className` prop — primitives, design-system components, and any feature-level component that merges defaults with consumer classes.
+
 ## VStack
 
 Vertical flex container with consistent gap. Use for stacking content blocks, form fields, card bodies, or any sequence of elements that flow top-to-bottom.
@@ -28,12 +47,11 @@ Vertical flex container with consistent gap. Use for stacking content blocks, fo
 // components/primitives/vstack.tsx
 import { View, type ViewProps } from "react-native";
 
+import { cn } from "@/lib/cn";
+
 export const VStack = (props: ViewProps) => {
   return (
-    <View
-      {...props}
-      className={["flex-col gap-4", props.className].filter(Boolean).join(" ")}
-    />
+    <View {...props} className={cn("flex-col gap-4", props.className)} />
   );
 };
 ```
@@ -56,13 +74,13 @@ Horizontal flex container that wraps. Use for groups of tags, badges, buttons, o
 // components/primitives/cluster.tsx
 import { View, type ViewProps } from "react-native";
 
+import { cn } from "@/lib/cn";
+
 export const Cluster = (props: ViewProps) => {
   return (
     <View
       {...props}
-      className={["flex-row flex-wrap gap-4", props.className]
-        .filter(Boolean)
-        .join(" ")}
+      className={cn("flex-row flex-wrap gap-4", props.className)}
     />
   );
 };
@@ -139,6 +157,7 @@ import { View, type ViewProps } from "react-native";
 
 import { Split } from "@/components/primitives/split";
 import { _Text } from "@/components/ui/text";
+import { cn } from "@/lib/cn";
 
 type Props = {
   title: string;
@@ -163,7 +182,7 @@ export const Section = (props: Props) => {
 
   return (
     <View
-      className={["flex-col gap-4", props.className].filter(Boolean).join(" ")}
+      className={cn("flex-col gap-4", props.className)}
       style={props.style}
     >
       {props.action ? titleWithAction : heading}
