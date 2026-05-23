@@ -8,6 +8,7 @@ import {
   MARKER_START,
   MARKER_END,
   MARKER_COMMENT,
+  MARKER_PREAMBLE,
 } from "../../src/utils/constants.js";
 
 describe("buildManagedBlock", () => {
@@ -17,7 +18,7 @@ describe("buildManagedBlock", () => {
     ]);
 
     expect(result).toBe(
-      `${MARKER_START}\n${MARKER_COMMENT}\nWhen writing React components or hooks, read \`.kai/react.md\`.\n${MARKER_END}`,
+      `${MARKER_START}\n${MARKER_COMMENT}\n\n${MARKER_PREAMBLE}\n\nWhen writing React components or hooks, read \`.kai/react.md\`.\n${MARKER_END}`,
     );
   });
 
@@ -43,7 +44,7 @@ describe("buildManagedBlock", () => {
     const result = buildManagedBlock([]);
 
     expect(result).toBe(
-      `${MARKER_START}\n${MARKER_COMMENT}\n\n${MARKER_END}`,
+      `${MARKER_START}\n${MARKER_COMMENT}\n\n${MARKER_PREAMBLE}\n\n\n${MARKER_END}`,
     );
   });
 });

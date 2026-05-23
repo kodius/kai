@@ -6,6 +6,7 @@ import {
   MARKER_START,
   MARKER_END,
   MARKER_COMMENT,
+  MARKER_PREAMBLE,
 } from "../utils/constants.js";
 import { fileExists, readText, writeText } from "../utils/fs.js";
 import type { ClaudeMdPlacement } from "../types/index.js";
@@ -24,7 +25,7 @@ export function buildManagedBlock(instructions: InstructionRef[]): string {
     )
     .join("\n\n");
 
-  return `${MARKER_START}\n${MARKER_COMMENT}\n${lines}\n${MARKER_END}`;
+  return `${MARKER_START}\n${MARKER_COMMENT}\n\n${MARKER_PREAMBLE}\n\n${lines}\n${MARKER_END}`;
 }
 
 export function replaceManagedBlock(
