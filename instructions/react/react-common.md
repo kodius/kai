@@ -117,6 +117,36 @@ Use `<>` shorthand. Only use `<React.Fragment>` when a `key` prop is required.
 
 Always use a stable unique ID as the `key` prop. Never use the array index.
 
+## Repeated UI — render from an array via `.map`
+
+Never hand-repeat similar JSX. When two or more siblings share the same shape (nav links, menu items, social icons, footer columns, stat tiles, tabs), declare the data as a typed array and render the list via `.map` into a small item component. Two hand-written copies is already drift waiting to happen — a class tweak landing on one and not the other is the most common form of "why does this one look different?".
+
+Extract the item into its own component (e.g. `NavLink`) the moment the row has more than text — an icon, an active state, an `aria-*` attribute, a wrapping `<Link>`. The page composes the data; the item owns the markup.
+
+The data array must be annotated with a named type — see the "Explicit types for objects and arrays" rule in `.kai/types-common.md`. The type name is **singular** and describes the shape of one item (`NavLink`, `FooterLink`); the array is expressed as `NavLink[]`. The type can share its name with the item component — TypeScript keeps type and value namespaces separate, so `type NavLink` and the `NavLink` component coexist in the same file and import.
+
+```tsx
+// nav-link.tsx
+export type NavLink = { href: string; label: string };
+
+export function NavLink(props: NavLink) {
+  return <a href={props.href}>{props.label}</a>;
+}
+
+// site-header.tsx
+const NAV_LINKS: NavLink[] = [
+  { href: "#oglasi", label: "Oglasi" },
+  { href: "#kako-radi", label: "Kako radi" },
+  { href: "#o-nama", label: "O nama" },
+];
+
+<nav>
+  {NAV_LINKS.map((link) => (
+    <NavLink key={link.label} {...link} />
+  ))}
+</nav>
+```
+
 ## Single responsibility
 
 A component should do one thing. Extract a new component when a section has its own state, represents a logically distinct piece of UI, or makes the parent hard to read.

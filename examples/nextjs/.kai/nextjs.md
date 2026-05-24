@@ -1,5 +1,22 @@
 # Next.js
 
+## Internal navigation uses `next/link` — never raw `<a>`
+
+Every internal navigation target — route paths (`/listings`, `/about`) **and** same-page hash links (`#install`) — must use `<Link>` from `next/link`. Raw `<a>` defeats client-side navigation, prefetching, and typed routes. Use raw `<a>` only for genuinely external URLs (`https://…`) or `mailto:` / `tel:` — and in that case pair it with `target="_blank" rel="noopener noreferrer"`.
+
+```tsx
+import Link from "next/link";
+
+<Link href="/listings">Oglasi</Link>
+<Link href="#install">Preuzmi aplikaciju</Link>
+
+<a href="https://apps.apple.com/..." target="_blank" rel="noopener noreferrer">
+  App Store
+</a>
+```
+
+When wrapping `<Link>` in a reusable item (`NavLink`, `FooterLink`), the wrapper itself uses `<Link>` — not `<a>` — so every call site benefits without thinking about it.
+
 ## Layout-level components belong in `layout.tsx`
 
 Layout-level components like headers, navigation, and footers should be placed in the `layout.tsx` file rather than in individual pages. This keeps pages focused on content and ensures layout is consistent across routes.
